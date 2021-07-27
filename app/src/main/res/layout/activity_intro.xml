@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- drawble에 삽입한 로고 이미지를 imageView를 통해 넣기 -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/logo"
+        android:scaleType="fitXY" />
+    <!-- 만든 png 이미지와 view 사이즈를 맞추기 위해 scaleType 지정 -->
+</LinearLayout>
