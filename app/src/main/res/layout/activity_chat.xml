@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chatting_background"
+    android:orientation="vertical"
+    android:weightSum="1"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        >
+
+        <ImageView
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@null"
+            android:src="@drawable/chat_title" />
+
+        <TextView
+            android:id="@+id/TextView_Bigtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:text="푸딩딩"
+            android:textColor="#646464"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TextView_Bigtitle"
+            android:layout_centerInParent="true"
+            android:text="#Seventeen  #헹가래  #HANA"
+            android:textColor="#646464"
+            />
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="382dp"
+        android:layout_height="590dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        >
+
+    <ImageView
+        android:id="@+id/ImageView_white_box_nonradius2"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/white_box_nonradius1"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@drawable/chat"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_alignEnd="@+id/ImageView_white_box_nonradius2"/>
+
+    <EditText
+        android:id="@+id/EditText_chat"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:layout_alignEnd="@+id/ImageView_white_box_nonradius2"
+        />
+
+    <ImageButton
+        android:id="@+id/ImageButton_plus"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:background="@null"
+        android:src="@drawable/plus_icon" />
+
+    <Button android:id="@+id/Button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="SEND"
+        android:layout_alignRight="@+id/ImageView_white_box_nonradius2"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
