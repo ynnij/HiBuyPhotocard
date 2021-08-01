@@ -173,6 +173,7 @@
             android:text="    친구초대" />
 
         <TextView
+            android:id="@+id/TextView_개발자문의"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="123dp"

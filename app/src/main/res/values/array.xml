@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="신고유형">
+        <item>1. 배송 지연 신고</item>
+        <item>2. 제품 하자 신고</item>
+        <item>3. 잘못된 게시물 신고</item>
+        <item>4. 파일 첨부하여 메일 보내기(메일함으로 이동됨)</item>
+    </string-array>
+</resources>
