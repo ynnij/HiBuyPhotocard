@@ -1,9 +1,12 @@
 package com.example.hibuyphotocard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,8 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.SellViewHolder
 
     private ArrayList<SellItemList> arrayList;
     private Context context;
+    private Intent intent;
+//    private Button button;
 
 
     public SellAdapter(ArrayList<SellItemList> arrayList, Context context) {
@@ -44,6 +49,43 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.SellViewHolder
         holder.sellAlbumTag.setText(arrayList.get(position).getAlbumTag());
         holder.sellMemberTag.setText(arrayList.get(position).getMemberTag());
         holder.sellPrice.setText(String.valueOf(arrayList.get(position).getPrice()));
+
+
+        //SellItemActivity를 위한 클릭 리스너 생성
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(v.getContext(), SellItemActivity.class);
+                intent.putExtra("number",position);
+                intent.putExtra("groupTag",arrayList.get(position).getGroupTag());
+                intent.putExtra("albumTag",arrayList.get(position).getAlbumTag());
+                intent.putExtra("memberTag",arrayList.get(position).getMemberTag());
+                intent.putExtra("detail",arrayList.get(position).getDetail());
+                intent.putExtra("delivery",arrayList.get(position).getDelivery());
+                intent.putExtra("userName",arrayList.get(position).getUserName());
+                intent.putExtra("imageURI",arrayList.get(position).getImageURI());
+                intent.putExtra("price",arrayList.get(position).getPrice());
+                v.getContext().startActivity(intent);
+
+            }
+        });
+
+//        button.findViewById(R.id.sellIngButton); //sellIngButton으로 바꾸면 강제 종료 됨 왤까
+//        button.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            //버튼 클릭 마다 예약 -> 판매 -> 예약 이런식으로 버튼 바뀌게
+//            //버튼 클릭시 DB의 state
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()){
+//                    case MotionEvent.ACTION_UP:
+//                        button.setBackgroundResource(R.drawable.sell_button_second);
+//                        button.setText("예약중");
+//                        //break;
+//                }
+//                return true;
+//
+//            }
+//        });
 
 
     }

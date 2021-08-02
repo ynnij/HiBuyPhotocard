@@ -7,6 +7,10 @@ public class SellItemList {
     private String groupTag;
     private String albumTag;
     private String memberTag;
+    private String defect;
+    private String delivery;
+    private String detail;
+    private String userName;
     private int price;
 
     public SellItemList(){}
@@ -59,4 +63,35 @@ public class SellItemList {
         this.price = price;
     }
 
+    public String getDefect() {
+        return defect;
+    }
+
+    public void setDefect(String defect) {
+        this.defect = defect;
+    }
+
+    public String getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(String delivery) {
+        this.delivery = delivery;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

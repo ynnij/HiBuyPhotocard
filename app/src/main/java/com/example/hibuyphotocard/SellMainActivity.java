@@ -49,9 +49,9 @@ public class SellMainActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         button.setBackgroundResource(R.drawable.sell_button_second);
                         button.setText("예약중");
-                        break;
+                        //break;
                 }
-                return false;
+                return true; //false로 지정하면 버튼 클릭시 앱 강제종료됨
 
             }
         });
