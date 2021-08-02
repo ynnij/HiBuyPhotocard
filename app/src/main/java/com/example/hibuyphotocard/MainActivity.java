@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     /* Dialog 위한 코드 */
     private Dialog searchDialog;
     private Button search_button;
+    private Button yesBtn;
 
     private DatabaseReference mDatabase;
     private DatabaseReference photocardDB;
@@ -93,6 +95,21 @@ public class MainActivity extends AppCompatActivity {
         search_Group = searchDialog.findViewById(R.id.search_Group);
         search_Album = searchDialog.findViewById(R.id.search_Album);
         search_Member = searchDialog.findViewById(R.id.search_Member);
+
+        yesBtn = searchDialog.findViewById(R.id.yesBtn); //검색 결과 넘기기
+
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                intent.putStringArrayListExtra("groupArray", (ArrayList<String>) searchKeywordGroup);
+                intent.putStringArrayListExtra("albumArray",(ArrayList<String>) searchKeywordAlbum);
+                intent.putStringArrayListExtra("memberArray",(ArrayList<String>) searchKeywordMember);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         //firebase에서 데이터 불러오기
         mDatabase = FirebaseDatabase.getInstance().getReference();
