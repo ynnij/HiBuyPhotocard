@@ -39,26 +39,35 @@ public class SellMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_main);
 
         //-----------버튼 이벤트 처리
-        Button button = findViewById(R.id.sellButton); //sellIngButton으로 바꾸면 강제 종료 됨 왤까
-        button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            //버튼 클릭 마다 예약 -> 판매 -> 예약 이런식으로 버튼 바뀌게
-            //버튼 클릭시 DB의 state
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_UP:
-                        button.setBackgroundResource(R.drawable.sell_button_second);
-                        button.setText("예약중");
-                        //break;
-                }
-                return true; //false로 지정하면 버튼 클릭시 앱 강제종료됨
+//        Button button = findViewById(R.id.sellButton); //sellIngButton으로 바꾸면 강제 종료 됨 왤까
+//        button.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            //버튼 클릭 마다 예약 -> 판매 -> 예약 이런식으로 버튼 바뀌게
+//            //버튼 클릭시 DB의 state
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()){
+//                    case MotionEvent.ACTION_UP:
+//                        button.setBackgroundResource(R.drawable.sell_button_second);
+//                        button.setText("예약중");
+//                        //break;
+//                }
+//                return true; //false로 지정하면 버튼 클릭시 앱 강제종료됨
+//
+//            }
+//        });
 
+        Button buyMoveButton = findViewById(R.id.buyButton);
+        buyMoveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SellMainActivity.this, BuyMainActivity.class); //시작 페이지, 이동할 페이지
+                startActivity(intent);
             }
         });
 
         //-----------뒤로 가기 이벤트 처리
         Button backButton = findViewById(R.id.backButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

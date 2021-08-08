@@ -17,12 +17,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class SellAdapter extends RecyclerView.Adapter<SellAdapter.SellViewHolder>{
+public class SellAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     private ArrayList<SellItemList> arrayList;
     private Context context;
     private Intent intent;
-//    private Button button;
 
 
     public SellAdapter(ArrayList<SellItemList> arrayList, Context context) {
@@ -32,15 +31,19 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.SellViewHolder
 
     @NonNull
     @Override
-    public SellViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_sell_main_itemview, parent, false);
-        SellViewHolder holder = new SellViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.activity_sell_main_itemview, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+
+
         return holder;
     }
 
     //각 item에 매칭을 시켜주는 역할
     @Override
-    public void onBindViewHolder(@NonNull SellAdapter.SellViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(holder.itemView)
                 .load(arrayList.get(position).getImageURI())
                 .into(holder.sellIcon);
@@ -53,6 +56,8 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.SellViewHolder
 
         //SellItemActivity를 위한 클릭 리스너 생성
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
                 intent = new Intent(v.getContext(), SellItemActivity.class);
@@ -69,23 +74,6 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.SellViewHolder
 
             }
         });
-
-//        button.findViewById(R.id.sellIngButton); //sellIngButton으로 바꾸면 강제 종료 됨 왤까
-//        button.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            //버튼 클릭 마다 예약 -> 판매 -> 예약 이런식으로 버튼 바뀌게
-//            //버튼 클릭시 DB의 state
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()){
-//                    case MotionEvent.ACTION_UP:
-//                        button.setBackgroundResource(R.drawable.sell_button_second);
-//                        button.setText("예약중");
-//                        //break;
-//                }
-//                return true;
-//
-//            }
-//        });
 
 
     }
