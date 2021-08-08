@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserModel {
-    public String user_nickname;
+    public String userName;
     public String profileImageUrl;
     public String uid;
 

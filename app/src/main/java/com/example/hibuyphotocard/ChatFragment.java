@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,11 @@ public class ChatFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     UserModel userModel =  dataSnapshot.getValue(UserModel.class);
-                    customViewHolder.textView_title.setText(userModel.user_nickname);
+//                    Glide.with(customViewHolder.itemView.getContext())
+//                            .load(userModel.profileImageUrl)
+//                            .apply(new RequestOptions().circleCrop())
+//                            .into(customViewHolder.imageView);
+//                    customViewHolder.textView_title.setText(userModel.userName);
 
                 }
 
@@ -120,9 +125,9 @@ public class ChatFragment extends Fragment {
             customViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//
-//                    Intent intent = new Intent(view.getContext(), ChatActivity.class);
-//                    intent.putExtra("destinationUid",destinationUsers.get(position));
+                    Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                    intent.putExtra("destinationUid",destinationUsers.get(position));
+                    startActivity(intent);
 
 
                 }

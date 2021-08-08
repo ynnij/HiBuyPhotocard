@@ -113,8 +113,8 @@ public class QuestionActivity<spinner> extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -136,8 +136,8 @@ public class QuestionActivity<spinner> extends AppCompatActivity {
                 variable = EditText_문의내용.getText().toString();
                 DB.child("QnAContent").child(Integer.toString(i++)).child("Detailed").setValue(variable);
                 Toast.makeText(getApplicationContext(),"전송되었습니다.",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(QuestionActivity.this, MainActivity.class);
+//                startActivity(intent);
                 //이전 페이지로 이동
 
             }

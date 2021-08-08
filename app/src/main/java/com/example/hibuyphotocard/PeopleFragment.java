@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,40 +27,38 @@ import com.google.firebase.database.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class PeopleFragment extends Fragment {
-    private FirebaseAuth mAuth;
-    UserModel userModel = new UserModel();
-    String myUid;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_people, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.peoplefragment_recyclerview);
+        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.peoplefragment_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
         recyclerView.setAdapter(new PeopleFragmentRecyclerViewAdapter());
+
+
         return view;
     }
 
-        class PeopleFragmentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    class PeopleFragmentRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-            List<UserModel> userModels;
+        List<UserModel> userModels;
 
-            public PeopleFragmentRecyclerViewAdapter() {
-                userModels = new ArrayList<>();
-//                final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
-
+        public PeopleFragmentRecyclerViewAdapter() {
+            userModels = new ArrayList<>();
+            final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     userModels.clear();
 
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for(DataSnapshot snapshot :dataSnapshot.getChildren()){
 
-                        Log.d("Tagging:", snapshot.getValue().toString());
+
                         UserModel userModel = snapshot.getValue(UserModel.class);
 
-
-                        if (userModel.uid.equals(myUid)) {
+                        if(userModel.uid.equals(myUid)){
                             continue;
                         }
                         userModels.add(userModel);
@@ -78,7 +78,7 @@ public class PeopleFragment extends Fragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend,parent,false);
 
 
             return new CustomViewHolder(view);
@@ -87,15 +87,27 @@ public class PeopleFragment extends Fragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-            ((CustomViewHolder) holder).textView.setText(userModels.get(position).user_nickname);
+
+            Glide.with
+                    (holder.itemView.getContext())
+                    .load(userModels.get(position).profileImageUrl)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(((CustomViewHolder)holder).imageView);
+            ((CustomViewHolder)holder).textView.setText(userModels.get(position).userName);
 
 
-         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Intent intent = new Intent(view.getContext(), ChatActivity.class);
-//                    intent.putExtra("destinationUid",userModels.get(position).uid);
-//                    startActivity(intent);
+                    Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                    intent.putExtra("destinationUid",userModels.get(position).uid);
+                    ActivityOptions activityOptions = null;
+                    startActivity(intent);
+//                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+//                        activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright,R.anim.toleft);
+//                        startActivity(intent,activityOptions.toBundle());
+//                    }
+
                 }
             });
         }
@@ -116,4 +128,5 @@ public class PeopleFragment extends Fragment {
             }
         }
     }
+
 }
