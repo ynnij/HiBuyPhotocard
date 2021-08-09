@@ -43,7 +43,7 @@
                         android:background="#ffffff"
                         android:layout_marginLeft="8dp"
                         android:text="5000원"
-                        android:textSize="10dp" />
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/seller"
@@ -52,9 +52,12 @@
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="5dp"
+                        android:paddingLeft="13dp"
                         android:text="판매자"
-                        android:textSize="10dp" />
+                        android:maxEms="4"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="12dp" />
 
                     <ToggleButton
                         android:id="@+id/likeButton"
