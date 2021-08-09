@@ -1,5 +1,7 @@
 package com.example.hibuyphotocard;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -9,24 +11,31 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -37,11 +46,16 @@ public class SearchResultActivity extends AppCompatActivity {
     private ArrayList<String> albumList;
     private ArrayList<String> memberList;
 
-    private ArrayList<SearchItemList> itemList; //recyclerview로 넘길 리스트
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference allSellList;
+    private String selectGroup; //dialog에서 넘어온 키워드
+    private String selectAlbum;
+    private String selectMember;
+
+    private ArrayList<SearchItemList> item; // recyclerview에 적용할 아이템 리스트
 
     private LinearLayout label_area; //라벨 붙일 곳
+    private Button search_button; //dialog 버튼
+
+    public boolean makeLabel = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,54 +65,31 @@ public class SearchResultActivity extends AppCompatActivity {
         actionBar.hide();
 
         //이전 activity에서 넘긴 데이터 받기
-        groupList = getIntent().getStringArrayListExtra("groupArray");
-        albumList = getIntent().getStringArrayListExtra("albumArray");
-        memberList = getIntent().getStringArrayListExtra("memberArray");
+        selectGroup = getIntent().getStringExtra("selectGroup");
+        selectAlbum = getIntent().getStringExtra("selectAlbum");
+        selectMember = getIntent().getStringExtra("selectMember");
 
-//        Log.d("확인","그룹 "+ groupList.toString());
-//        Log.d("확인","앨범 "+ albumList.toString());
-//        Log.d("확인","멤버 "+ memberList.toString());
+        item = (ArrayList<SearchItemList>) getIntent().getSerializableExtra("itemList"); // 넘어온 검색 아이템 받기
 
         //받은 태그 동적 생성
         label_area = findViewById(R.id.label_area);
-        for(int i=0;i<groupList.size();i++){
-            createTextView(groupList.get(i),label_area,"group");
-        }
-        for(int i=0;i<albumList.size();i++){
-            createTextView(albumList.get(i),label_area,"album");
-        }
-        for(int i=0;i<memberList.size();i++){
-            createTextView(memberList.get(i),label_area,"member");
-        }
+        if(!selectGroup.equals("")) createTextView(selectGroup,label_area,"group");
+        if(!selectAlbum.equals("")) createTextView(selectAlbum,label_area,"album");
+        if(!selectMember.equals("")) createTextView(selectMember,label_area,"member");
 
-        itemList = new ArrayList<>();
-
-        //데이터베이스 받아오기
-        mDatabase = FirebaseDatabase.getInstance();
-        allSellList = mDatabase.getReference("Sell");
-
-        allSellList.addListenerForSingleValueEvent(new ValueEventListener() {
+        //다이얼로그 연결
+        SearchDialogActivity dialog = new SearchDialogActivity(SearchResultActivity.this);
+        search_button = findViewById(R.id.search_button);
+        search_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 List 추출해냄
-                    SearchItemList sellItemList = snapshot.getValue(SearchItemList.class); //만들어뒀던  User 겍체에 데이터를 담는다
-                    itemList.add(sellItemList); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+            public void onClick(View v) {
+                dialog.showDialog();
+                if(!makeLabel){  //다이얼로그에 라벨 한 번만 생성하도록 함
+                    dialog.setDialog(selectGroup,selectAlbum,selectMember);
+                    makeLabel = true;
                 }
-                adapter.notifyDataSetChanged();
-
-            }
-
-
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
-        Log.d("확인",itemList.toString());
 
         recyclerView = findViewById(R.id.recyclerview);
 
@@ -108,7 +99,7 @@ public class SearchResultActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(numberOfColumns, spacing, includeEdge));
 
-        adapter = new SearchAdapter(itemList,this);
+        adapter = new SearchAdapter(item,this);
         recyclerView.setAdapter(adapter);
     }
 
