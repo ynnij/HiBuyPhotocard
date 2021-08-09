@@ -36,7 +36,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         Glide.with(holder.itemView)
                 .load(itemList.get(position).getImageURI())
                 .into(holder.search_img);
-       // holder.price.setText(itemList.get(position).getPrice());
         holder.price.setText(itemList.get(position).getPrice()+"원");
         holder.seller.setText(itemList.get(position).getUserName());
     }
