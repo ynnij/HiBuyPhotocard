@@ -1,0 +1,136 @@
+package com.example.hibuyphotocard;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.LongSummaryStatistics;
+import java.util.Map;
+import java.util.Set;
+
+public class WishListActivity extends AppCompatActivity {
+    private Button backButton;
+    private FirebaseUser user;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    ArrayList<SearchItemList> wishItem; //리싸이클러뷰애 적용할 아이템 리스트
+
+    private DatabaseReference mDatabase;
+    private DatabaseReference allUsers;
+    private DatabaseReference wishListDB;
+    private DatabaseReference SellItemList;
+
+    private String email;
+    private String nickName;
+    private ArrayList wish; // firebase에서 받아온 user의 찜 목록
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wish_list); // xml 연결
+
+        ActionBar actionBar = getSupportActionBar();  //액션바 숨기기
+        actionBar.hide();
+
+        backButton = findViewById(R.id.backButton); //뒤로가기 버튼
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); //뒤로가기 -> 이전 activity는 intent 후에 종료 X
+            }
+        });
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null) {
+            for(UserInfo profile : user.getProviderData()){
+                email = profile.getEmail();
+                Log.d("확인",email);
+
+            }
+        }
+
+        wishItem = new ArrayList<>();
+        wishItem.clear();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 연결
+        allUsers = mDatabase.child("id_list");
+        allUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot datas : snapshot.getChildren()) {
+                    String user = datas.child("email").getValue(String.class);
+                    if(user.equals(email)){
+                        Log.d("확인", "같은 이메일은 "+email);
+                        nickName = datas.getKey();
+
+                        wishListDB = mDatabase.child("id_list").child(nickName).child("wishList"); //유저의 찜목록 가져오기
+                        wishListDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                wish = (ArrayList)dataSnapshot.getValue(); //firebase에서 wishList 받아오면 데이터 필터링 시작
+                                SellItemList = mDatabase.child("Sell");
+                                SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot sellData) {
+                                        for(DataSnapshot snapshot: sellData.getChildren()){
+                                            SearchItemList itemList = snapshot.getValue(SearchItemList.class);
+                                            if(wish.contains(itemList.getSellID())){
+                                                wishItem.add(itemList);
+                                            }
+                                        }
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        recyclerView = findViewById(R.id.recyclerviewWish);
+
+        int numberOfColumns = 2;
+        int spacing = 30;
+        boolean includeEdge = true;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(numberOfColumns, spacing, includeEdge));
+
+        adapter = new SearchAdapter(wishItem,this);
+        recyclerView.setAdapter(adapter);
+    }
+}
