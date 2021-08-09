@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
@@ -38,7 +39,8 @@ import java.util.Map;
 public class SearchDialogActivity extends Activity {
     private Dialog searchDialog;
     public Context dialogContext;
-    public Context activityContext;
+    public Context activityContext; //다이얼로그가 열린 activity의 context
+
     private Button yesBtn; //검색 버튼
     private Button closeBtn;
 
@@ -46,6 +48,7 @@ public class SearchDialogActivity extends Activity {
     private DatabaseReference idolDB;
     private DatabaseReference albumDB;
     private DatabaseReference memberDB;
+    private DatabaseReference SellItemList;
 
     private AutoCompleteTextView search_Group;
     private AutoCompleteTextView search_Album;
@@ -60,6 +63,8 @@ public class SearchDialogActivity extends Activity {
     private String selectAlbum ="";
     private String selectMember ="";
 
+
+    private ArrayList<SearchItemList> itemList;  //전송할 리스트
 
     public SearchDialogActivity(Context context){
         searchDialog = new Dialog(context);
@@ -80,17 +85,69 @@ public class SearchDialogActivity extends Activity {
         search_Album = searchDialog.findViewById(R.id.search_Album);
         search_Member = searchDialog.findViewById(R.id.search_Member);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 연결
+
+        SellItemList = mDatabase.child("Sell");
+        itemList = new ArrayList<>(); //검색 결과화면으로 넘길 리스트
 
         yesBtn = searchDialog.findViewById(R.id.yesBtn);
         yesBtn.setOnClickListener(new View.OnClickListener() { //다음 activity로 값 전송
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(searchDialog.getContext(),SearchResultActivity.class);
-                intent.putExtra("selectGroup", selectGroup);
-                intent.putExtra("selectAlbum", selectAlbum);
-                intent.putExtra("selectMember", selectMember);
-                searchDialog.getContext().startActivity(intent);
-                searchDialog.hide();
+                itemList.clear();
+                SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            SearchItemList sellItemList = snapshot.getValue(SearchItemList.class);
+                            if(selectGroup.equals("")){  //그룹 선택 안한 경우(하위 항목 선택 X)
+                                itemList.add(sellItemList); //모든 판매글 저장
+                            }
+                            else {
+                                if(selectAlbum.equals("")&&selectMember.equals("") //그룹만 선택된 경우
+                                        && sellItemList.getGroupTag().equals(selectGroup))
+                                    itemList.add(sellItemList);
+                                else if(selectAlbum.equals("") && sellItemList.getGroupTag().equals(selectGroup)
+                                        && sellItemList.getMemberTag().equals(selectMember))  // 그룹, 멤버만 선택한 경우
+                                    itemList.add(sellItemList);
+                                else if(selectMember.equals("") && sellItemList.getGroupTag().equals(selectGroup) //그룹, 앨범만 선택한 경우
+                                        && sellItemList.getAlbumTag().equals(selectAlbum))
+                                    itemList.add(sellItemList);
+                                else {
+                                    if(sellItemList.getGroupTag().equals(selectGroup) // 전체 선택한 값이 있는 경우
+                                            && sellItemList.getAlbumTag().equals(selectAlbum)
+                                            && sellItemList.getMemberTag().equals(selectMember))
+                                        itemList.add(sellItemList);
+                                }
+                            }
+                        }
+                        if(itemList.isEmpty()){
+                            Intent intent = new Intent(searchDialog.getContext(), NoResultActivity.class);
+                            intent.putExtra("selectGroup", selectGroup);
+                            intent.putExtra("selectAlbum", selectAlbum);
+                            intent.putExtra("selectMember", selectMember);
+                            searchDialog.getContext().startActivity(intent);
+                            searchDialog.hide();
+                        }
+                        else {
+                            Intent intent = new Intent(searchDialog.getContext(),SearchResultActivity.class);
+                            intent.putExtra("selectGroup", selectGroup);
+                            intent.putExtra("selectAlbum", selectAlbum);
+                            intent.putExtra("selectMember", selectMember);
+                            intent.putExtra("itemList",itemList);
+                            searchDialog.getContext().startActivity(intent);
+                            searchDialog.hide();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
             }
         });
 
@@ -102,8 +159,7 @@ public class SearchDialogActivity extends Activity {
             }
         });
 
-        //firebase에서 데이터 불러오기
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //firebase에서 아이돌 데이터 불러오기
         idolDB = mDatabase.child("idol");
         idolDB.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
