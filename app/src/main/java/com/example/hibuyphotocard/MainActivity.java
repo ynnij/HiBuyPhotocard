@@ -32,6 +32,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button search_button; //메인 내 dialog 창 띄우는 버튼
+    private Button wishButton; //위시리스트 위한 임시 버튼
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.showDialog();
+            }
+        });
+
+        wishButton = findViewById(R.id.wishListButton);
+        wishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), WishListActivity.class);
+                startActivity(intent);
             }
         });
     }
