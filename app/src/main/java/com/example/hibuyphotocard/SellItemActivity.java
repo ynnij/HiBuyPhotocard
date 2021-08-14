@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 public class SellItemActivity extends AppCompatActivity {
 
+   private FirebaseDatabase database = FirebaseDatabase.getInstance();
+   private DatabaseReference databaseReference = database.getReference();
    private Intent intent;
    //private int number;
    private String itemGroupTag;
@@ -50,11 +52,15 @@ public class SellItemActivity extends AppCompatActivity {
    private TextView deliveryView;
    private TextView userNameView;
    private TextView priceView;
+   private Button sellStateButton1;
+   private Button sellStateButton2;
+   private Button sellStateButton3;
+   private Button editButton;
 
    protected void onCreate(Bundle savedInstanceState) {
 
        super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_sell_post);
+       setContentView(R.layout.activity_sell_mypage);
 
 
        intent = getIntent();
@@ -76,6 +82,10 @@ public class SellItemActivity extends AppCompatActivity {
        userNameView = findViewById(R.id.sellListUserName);
        imageView = findViewById(R.id.sellListImage);
        priceView = findViewById(R.id.sellListPrice);
+       sellStateButton1 = findViewById(R.id.sellStateButton1);
+       sellStateButton2 = findViewById(R.id.sellStateButton2);
+       sellStateButton3 = findViewById(R.id.sellStateButton3);
+       editButton = findViewById(R.id.editButton);
 
        groupTagView.setText(itemGroupTag);
        albumTagView.setText(itemAlbumTag);
@@ -96,6 +106,44 @@ public class SellItemActivity extends AppCompatActivity {
                intent.putExtra("buttonLeft", "종료");
                intent.putExtra("buttonRight", "상세보기");
                startActivityForResult(intent, 4);
+           }
+       });
+
+       sellStateButton1.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               intent = getIntent();
+               String sellID = intent.getStringExtra("sellID");
+               databaseReference.child("Sell").child(sellID).child("state").setValue("판매중");
+               Toast.makeText(SellItemActivity.this,"\'판매중\'을 선택하였습니다.",Toast.LENGTH_SHORT).show();
+           }
+       });
+
+       sellStateButton2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               intent = getIntent();
+               String sellID = intent.getStringExtra("sellID");
+               databaseReference.child("Sell").child(sellID).child("state").setValue("예약중");
+               Toast.makeText(SellItemActivity.this,"\'예약중\'을 선택하였습니다.",Toast.LENGTH_SHORT).show();
+           }
+       });
+
+       sellStateButton3.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               intent = getIntent();
+               String sellID = intent.getStringExtra("sellID");
+               databaseReference.child("Sell").child(sellID).child("state").setValue("거래완료");
+               Toast.makeText(SellItemActivity.this,"\'거래완료\'를 선택하였습니다.",Toast.LENGTH_SHORT).show();
+           }
+       });
+
+       editButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(SellItemActivity.this,SellMainActivity.class);
+               startActivity(intent);
            }
        });
    }

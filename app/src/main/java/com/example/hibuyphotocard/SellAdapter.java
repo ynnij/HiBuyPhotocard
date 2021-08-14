@@ -53,6 +53,8 @@ public class SellAdapter extends RecyclerView.Adapter<ViewHolder>{
         holder.sellMemberTag.setText(arrayList.get(position).getMemberTag());
         holder.sellPrice.setText(String.valueOf(arrayList.get(position).getPrice()));
 
+        SellItemList sellItemList = arrayList.get(position);
+        holder.setSellState(sellItemList);
 
         //SellItemActivity를 위한 클릭 리스너 생성
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +72,7 @@ public class SellAdapter extends RecyclerView.Adapter<ViewHolder>{
                 intent.putExtra("userName",arrayList.get(position).getUserName());
                 intent.putExtra("imageURI",arrayList.get(position).getImageURI());
                 intent.putExtra("price",arrayList.get(position).getPrice());
+                intent.putExtra("sellID",arrayList.get(position).getSellID());
                 v.getContext().startActivity(intent);
 
             }

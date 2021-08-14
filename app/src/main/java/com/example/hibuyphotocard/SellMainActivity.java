@@ -3,7 +3,6 @@ package com.example.hibuyphotocard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 
 public class SellMainActivity extends AppCompatActivity {
@@ -31,6 +32,17 @@ public class SellMainActivity extends AppCompatActivity {
     private ArrayList<SellItemList> arrayList;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+
+    private FirebaseUser user;
+    ArrayList<SellItemList> sellItem;
+    private DatabaseReference mDatabase;
+    private DatabaseReference allUsers;
+    private DatabaseReference sellListDB;
+    private DatabaseReference SellItemList;
+
+    private String email;
+    private String nickName;
+    private ArrayList sell; // firebase에서 받아온 user의 찜 목록
 
 
     @Override
@@ -89,35 +101,96 @@ public class SellMainActivity extends AppCompatActivity {
 
 
         //-----------판매글 리스트 처리
-        recyclerView = findViewById(R.id.recyclerview); //리사이클러뷰 아이디 연결
+        recyclerView = findViewById(R.id.recyclerviewSell); //리사이클러뷰 아이디 연결
         recyclerView.setHasFixedSize(true); //기존 성능 강화
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        arrayList = new ArrayList<>(); //sell 객체를 담을 arraylist(어댑터 쪽으로 날리기 위함)
 
-        database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null) {
+            for(UserInfo profile : user.getProviderData()){
+                email = profile.getEmail();
+                Log.d("확인",email);
 
-        databaseReference = database.getReference("Sell"); //DB 테이블 연결
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                //파이어베이스 데이터베이스의 데이터를 받아오는 곳
-                arrayList.clear(); //기존 배열리스트가 존재하지 않게 초기화
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 List 추출해냄
-                    SellItemList sellItemList = snapshot.getValue(SellItemList.class); //만들어뒀던  User 겍체에 데이터를 담는다
-                    arrayList.add(sellItemList); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
-                }
-                adapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
             }
+        }
 
+        sellItem = new ArrayList<>();
+        sellItem.clear();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 연결
+        allUsers = mDatabase.child("id_list");
+        allUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-                //DB를 가져오던 중 에러 발생 시
-                Log.e("MainActivity",String.valueOf(databaseError.toException())); //에러문 출력
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot datas : snapshot.getChildren()) {
+                    String user = datas.child("email").getValue(String.class);
+                    if(user.equals(email)){
+                        Log.d("확인", "같은 이메일은 "+email);
+                        nickName = datas.getKey();
+
+                        sellListDB = mDatabase.child("id_list").child(nickName).child("sell"); //유저의 찜목록 가져오기
+                        sellListDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                sell = (ArrayList)dataSnapshot.getValue(); //firebase에서 wishList 받아오면 데이터 필터링 시작
+                                SellItemList = mDatabase.child("Sell");
+                                SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot sellData) {
+                                        for(DataSnapshot snapshot: sellData.getChildren()){
+                                            SellItemList itemList = snapshot.getValue(SellItemList.class);
+                                            if(sell.contains(itemList.getSellID())){
+                                                sellItem.add(itemList);
+                                            }
+                                        }
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
-        adapter = new SellAdapter(arrayList, this);
+//        arrayList = new ArrayList<>(); //sell 객체를 담을 arraylist(어댑터 쪽으로 날리기 위함)
+//
+//        database = FirebaseDatabase.getInstance(); //파이어베이스 데이터베이스 연동
+//
+//        databaseReference = database.getReference("Sell"); //DB 테이블 연결
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+//                //파이어베이스 데이터베이스의 데이터를 받아오는 곳
+//                arrayList.clear(); //기존 배열리스트가 존재하지 않게 초기화
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 List 추출해냄
+//                    SellItemList sellItemList = snapshot.getValue(SellItemList.class); //만들어뒀던  User 겍체에 데이터를 담는다
+//                    arrayList.add(sellItemList); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+//                }
+//                adapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+//                //DB를 가져오던 중 에러 발생 시
+//                Log.e("MainActivity",String.valueOf(databaseError.toException())); //에러문 출력
+//            }
+//        });
+//
+//        adapter = new SellAdapter(arrayList, this);
+        adapter = new SellAdapter(sellItem,this);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
 
 
