@@ -20,7 +20,7 @@ public class IntroActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), SellMainActivity.class); //로그인으로 돌려놓기
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class); //로그인으로 돌려놓기
                 startActivity(intent); // 인트로 화면 후 main activity 넘기기
                 finish(); // intro activity 종료
             }
