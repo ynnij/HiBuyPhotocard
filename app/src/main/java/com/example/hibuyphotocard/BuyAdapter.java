@@ -2,9 +2,11 @@ package com.example.hibuyphotocard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +22,6 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyViewHolder>{
     private ArrayList<SellItemList> arrayList;
     private Context context;
     private Intent intent;
-//    private Button button;
 
 
     public BuyAdapter(ArrayList<SellItemList> arrayList, Context context) {
@@ -48,43 +49,23 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyViewHolder>{
         holder.sellMemberTag.setText(arrayList.get(position).getMemberTag());
         holder.sellPrice.setText(String.valueOf(arrayList.get(position).getPrice()));
 
+        //viewHolder 버튼 이벤트 변경을 위한
+        SellItemList sellItemList = arrayList.get(position);
+        holder.setState(sellItemList);
 
-        //SellItemActivity를 위한 클릭 리스너 생성
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //intent = new Intent(v.getContext(), SellItemActivity.class);
                 intent = new Intent(v.getContext(), ratingActivity.class);
                 intent.putExtra("number",position);
-                intent.putExtra("groupTag",arrayList.get(position).getGroupTag());
-                intent.putExtra("albumTag",arrayList.get(position).getAlbumTag());
-                intent.putExtra("memberTag",arrayList.get(position).getMemberTag());
-                intent.putExtra("detail",arrayList.get(position).getDetail());
-                intent.putExtra("delivery",arrayList.get(position).getDelivery());
                 intent.putExtra("userName",arrayList.get(position).getUserName());
-                intent.putExtra("imageURI",arrayList.get(position).getImageURI());
-                intent.putExtra("price",arrayList.get(position).getPrice());
+                intent.putExtra("sellID",arrayList.get(position).getSellID());
+                intent.putExtra("rateState",arrayList.get(position).getRateState());
                 v.getContext().startActivity(intent);
-
             }
         });
 
-//        button.findViewById(R.id.sellIngButton); //sellIngButton으로 바꾸면 강제 종료 됨 왤까
-//        button.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            //버튼 클릭 마다 예약 -> 판매 -> 예약 이런식으로 버튼 바뀌게
-//            //버튼 클릭시 DB의 state
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()){
-//                    case MotionEvent.ACTION_UP:
-//                        button.setBackgroundResource(R.drawable.sell_button_second);
-//                        button.setText("예약중");
-//                        //break;
-//                }
-//                return true;
-//
-//            }
-//        });
+
 
 
     }
@@ -96,6 +77,7 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyViewHolder>{
     }
 
     public class BuyViewHolder extends RecyclerView.ViewHolder {
+        Button button;
         ImageView sellIcon;
         TextView sellTitle;
         TextView sellGroupTag;
@@ -105,12 +87,26 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyViewHolder>{
 
         public BuyViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.button = itemView.findViewById(R.id.ratingButton);
             this.sellIcon = itemView.findViewById(R.id.sellIcon);
             this.sellTitle = itemView.findViewById(R.id.sellTitle);
             this.sellGroupTag = itemView.findViewById(R.id.sellGroupTag);
             this.sellAlbumTag = itemView.findViewById(R.id.sellAlbumTag);
             this.sellMemberTag = itemView.findViewById(R.id.sellMemberTag);
             this.sellPrice = itemView.findViewById(R.id.sellPrice);
+
+
+        }
+
+        public void setState(SellItemList sellItemList){
+            boolean rateState = sellItemList.getRateState();
+            if(rateState==true){
+                button.setBackgroundResource(R.drawable.buy_button_second);
+                button.setText("평가\n완료");
+                button.setTextColor(Color.parseColor("#FFFFFF"));
+                button.setEnabled(false);
+
+            }
         }
     }
 
