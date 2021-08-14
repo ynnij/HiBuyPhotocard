@@ -11,6 +11,9 @@ public class SellItemList {
     private String delivery;
     private String detail;
     private String userName;
+    private String sellID;
+    private String state;
+    private Boolean rateState;
     private int price;
 
     public SellItemList(){}
@@ -94,4 +97,30 @@ public class SellItemList {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public String getSellID() {
+        return sellID;
+    }
+
+    public void setSellID(String sellID) {
+        this.sellID = sellID;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public Boolean getRateState() {
+        return rateState;
+    }
+
+    public void setRateState(Boolean rateState) {
+        this.rateState = rateState;
+    }
+
+
 }
