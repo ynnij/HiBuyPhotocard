@@ -143,11 +143,12 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/sell_button_basic"
+                android:enabled="false"
                 android:text="판매중"
                 android:textColor="#FFFFFF"
+                app:cornerRadius="70dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:cornerRadius="70dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 
