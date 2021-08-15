@@ -2,24 +2,32 @@ package com.example.hibuyphotocard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 public class ratingActivity extends AppCompatActivity {
 
     //파이어베이스 연결
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = database.getReference();
+    private DatabaseReference mypage;
     private Intent intent;
 
     int deliveryScore ;
@@ -66,11 +74,25 @@ public class ratingActivity extends AppCompatActivity {
             }
         });
 
+        intent = getIntent();
+        String nickName = intent.getStringExtra("userName");
 
+        mypage = databaseReference.child("id_list").child(nickName).child("mypage");
+        mypage.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ScoreList scoreList = snapshot.getValue(ScoreList.class);
+                deliveryScore = scoreList.getDeliveryScore();
+                mannerScore = scoreList.getMannerScore();
+                itemScore = scoreList.getItemScore();
 
+            }
 
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-
+            }
+        });
 
 
         //토큰 버튼 점수 부여
@@ -78,7 +100,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    deliveryScore += 3;
+                    if(deliveryScore>=100){
+                        deliveryScore = 100;
+                    }
+                    else if (deliveryScore>=0 & deliveryScore <100){
+                        deliveryScore += 3;
+                    }
+                    else{
+                        deliveryScore = 0;
+                    }
                 }
             }
         });
@@ -87,7 +117,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    deliveryScore += 1;
+                    if(deliveryScore>=100){
+                        deliveryScore = 100;
+                    }
+                    else if (deliveryScore>=0 & deliveryScore <100){
+                        deliveryScore += 1;
+                    }
+                    else{
+                        deliveryScore = 0;
+                    }
                 }
             }
         });
@@ -96,7 +134,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    deliveryScore -= 1;
+                    if(deliveryScore>=100){
+                        deliveryScore = 100;
+                    }
+                    else if (deliveryScore>0 & deliveryScore <100){
+                        deliveryScore -= 1;
+                    }
+                    else{
+                        deliveryScore = 0;
+                    }
                 }
             }
         });
@@ -105,7 +151,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mannerScore += 3;
+                    if(mannerScore>=100){
+                        mannerScore = 100;
+                    }
+                    else if (mannerScore>=0 & mannerScore <100){
+                        mannerScore += 3;
+                    }
+                    else{
+                        mannerScore = 0;
+                    }
                 }
             }
         });
@@ -114,7 +168,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mannerScore += 1;
+                    if(mannerScore>=100){
+                        mannerScore = 100;
+                    }
+                    else if (mannerScore>=0 & mannerScore <100){
+                        mannerScore += 1;
+                    }
+                    else{
+                        mannerScore = 0;
+                    }
                 }
             }
         });
@@ -123,7 +185,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    mannerScore -= 1;
+                    if(mannerScore>=100){
+                        mannerScore = 100;
+                    }
+                    else if (mannerScore>0 & mannerScore <100){
+                        mannerScore -= 1;
+                    }
+                    else{
+                        mannerScore = 0;
+                    }
                 }
             }
         });
@@ -132,7 +202,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    itemScore += 2;
+                    if(itemScore>=100){
+                        itemScore = 100;
+                    }
+                    else if (itemScore>=0 & itemScore <100){
+                        itemScore += 2;
+                    }
+                    else{
+                        itemScore = 0;
+                    }
                 }
             }
         });
@@ -141,7 +219,15 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    itemScore -= 1;
+                    if(itemScore>=100){
+                        itemScore = 100;
+                    }
+                    else if (itemScore>0 & itemScore <100){
+                        itemScore -= 1;
+                    }
+                    else{
+                        itemScore = 0;
+                    }
                 }
             }
         });
