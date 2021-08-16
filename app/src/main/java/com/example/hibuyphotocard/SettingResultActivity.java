@@ -58,7 +58,7 @@ public class SettingResultActivity extends AppCompatActivity {
                             }
                         });
                         ad.show();
-
+//
                     }
                 });
 

@@ -1,25 +1,31 @@
 package com.example.hibuyphotocard;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
@@ -29,11 +35,17 @@ import java.util.List;
 
 
 public class PeopleFragment extends Fragment {
+    public FirebaseUser user;
+    public String email;
+    public String nickName;
+    private DatabaseReference mDatabase;
+    private DatabaseReference allUsers;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_people, container, false);
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.peoplefragment_recyclerview);
+        RecyclerView recyclerView = view.findViewById(R.id.peoplefragment_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
         recyclerView.setAdapter(new PeopleFragmentRecyclerViewAdapter());
 
@@ -48,6 +60,10 @@ public class PeopleFragment extends Fragment {
         public PeopleFragmentRecyclerViewAdapter() {
             userModels = new ArrayList<>();
             final String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+
+
             FirebaseDatabase.getInstance().getReference().child("users").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -99,10 +115,10 @@ public class PeopleFragment extends Fragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), MessageActivity.class);
-                    intent.putExtra("destinationUid",userModels.get(position).uid);
+                    Intent intent2 = new Intent(view.getContext(), MessageActivity.class);
+                    intent2.putExtra("destinationUid",userModels.get(position).uid);//uid
                     ActivityOptions activityOptions = null;
-                    startActivity(intent);
+                    startActivity(intent2);
 //                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
 //                        activityOptions = ActivityOptions.makeCustomAnimation(view.getContext(), R.anim.fromright,R.anim.toleft);
 //                        startActivity(intent,activityOptions.toBundle());
@@ -123,8 +139,8 @@ public class PeopleFragment extends Fragment {
 
             public CustomViewHolder(View view) {
                 super(view);
-                imageView = (ImageView) view.findViewById(R.id.frienditem_imageview);
-                textView = (TextView) view.findViewById(R.id.frienditem_textview);
+                imageView = view.findViewById(R.id.frienditem_imageview);
+                textView = view.findViewById(R.id.frienditem_textview);
             }
         }
     }
