@@ -64,9 +64,7 @@ public class WishListActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null) {
             for(UserInfo profile : user.getProviderData()){
-                email = profile.getEmail();
-                Log.d("확인",email);
-
+                email = profile.getEmail();  // 현재 로그인한 계정 저장
             }
         }
 
@@ -81,31 +79,33 @@ public class WishListActivity extends AppCompatActivity {
                 for (DataSnapshot datas : snapshot.getChildren()) {
                     String user = datas.child("email").getValue(String.class);
                     if(user.equals(email)){
-                        Log.d("확인", "같은 이메일은 "+email);
                         nickName = datas.getKey();
-
                         wishListDB = mDatabase.child("id_list").child(nickName).child("wishList"); //유저의 찜목록 가져오기
                         wishListDB.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 wish = (ArrayList)dataSnapshot.getValue(); //firebase에서 wishList 받아오면 데이터 필터링 시작
-                                SellItemList = mDatabase.child("Sell");
-                                SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot sellData) {
-                                        for(DataSnapshot snapshot: sellData.getChildren()){
-                                            SearchItemList itemList = snapshot.getValue(SearchItemList.class);
-                                            if(wish.contains(itemList.getSellID())){
-                                                wishItem.add(itemList);
+                                if(wish !=null){  // 위시리스트가 있는 사용자는 위시리스트 불러오기
+                                    SellItemList = mDatabase.child("Sell");
+                                    SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot sellData) {
+                                            for(DataSnapshot snapshot: sellData.getChildren()){
+                                                SearchItemList itemList = snapshot.getValue(SearchItemList.class);
+                                                if(wish.contains(itemList.getSellID())){
+                                                    wishItem.add(itemList);
+                                                }
                                             }
+                                            adapter.notifyDataSetChanged();
                                         }
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            }
+                                    });
+                                }
+                                else {  //위시리스트가 없는 경우 아무것도 표시하지 않음
 
                                     }
-                                });
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -132,5 +132,11 @@ public class WishListActivity extends AppCompatActivity {
 
         adapter = new SearchAdapter(wishItem,this);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
