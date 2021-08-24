@@ -68,7 +68,7 @@ public class ratingActivity extends AppCompatActivity {
                     //상태 저장
                 }
                 else{
-                    Toast.makeText(ratingActivity.this, "평가 버튼을 클릭해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ratingActivity.this, "평가 버튼을 모두 클릭해주세요", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -100,15 +100,21 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(deliveryScore>=100){
+                    deliveryScore += 3;
+                    if(deliveryScore>100)
                         deliveryScore = 100;
-                    }
-                    else if (deliveryScore>=0 & deliveryScore <100){
-                        deliveryScore += 3;
-                    }
-                    else{
+                    else if(deliveryScore<0)
                         deliveryScore = 0;
-                    }
+
+//                    if(deliveryScore>=100){
+//                        deliveryScore = 100;
+//                    }
+//                    else if (deliveryScore>=0 & deliveryScore <100){
+//                        deliveryScore += 3;
+//                    }
+//                    else{
+//                        deliveryScore = 0;
+//                    }
                 }
             }
         });
@@ -117,15 +123,21 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(deliveryScore>=100){
+                    deliveryScore += 1;
+                    if(deliveryScore>100)
                         deliveryScore = 100;
-                    }
-                    else if (deliveryScore>=0 & deliveryScore <100){
-                        deliveryScore += 1;
-                    }
-                    else{
+                    else if(deliveryScore<0)
                         deliveryScore = 0;
-                    }
+//
+//                    if(deliveryScore>=100){
+//                        deliveryScore = 100;
+//                    }
+//                    else if (deliveryScore>=0 & deliveryScore <100){
+//                        deliveryScore += 1;
+//                    }
+//                    else{
+//                        deliveryScore = 0;
+//                    }
                 }
             }
         });
@@ -134,15 +146,21 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(deliveryScore>=100){
+                    deliveryScore -= 1;
+                    if(deliveryScore>100)
                         deliveryScore = 100;
-                    }
-                    else if (deliveryScore>0 & deliveryScore <100){
-                        deliveryScore -= 1;
-                    }
-                    else{
+                    else if(deliveryScore<0)
                         deliveryScore = 0;
-                    }
+//
+//                    if(deliveryScore>=100){
+//                        deliveryScore = 100;
+//                    }
+//                    else if (deliveryScore>0 & deliveryScore <100){
+//                        deliveryScore -= 1;
+//                    }
+//                    else{
+//                        deliveryScore = 0;
+//                    }
                 }
             }
         });
@@ -151,15 +169,21 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(mannerScore>=100){
+                    mannerScore += 3;
+                    if(mannerScore>100)
                         mannerScore = 100;
-                    }
-                    else if (mannerScore>=0 & mannerScore <100){
-                        mannerScore += 3;
-                    }
-                    else{
+                    else if(mannerScore<0)
                         mannerScore = 0;
-                    }
+
+//                    if(mannerScore>=100){
+//                        mannerScore = 100;
+//                    }
+//                    else if (mannerScore>=0 & mannerScore <100){
+//                        mannerScore += 3;
+//                    }
+//                    else{
+//                        mannerScore = 0;
+//                    }
                 }
             }
         });
@@ -168,15 +192,20 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(mannerScore>=100){
+                    mannerScore += 1;
+                    if(mannerScore>100)
                         mannerScore = 100;
-                    }
-                    else if (mannerScore>=0 & mannerScore <100){
-                        mannerScore += 1;
-                    }
-                    else{
+                    else if(mannerScore<0)
                         mannerScore = 0;
-                    }
+//                    if(mannerScore>=100){
+//                        mannerScore = 100;
+//                    }
+//                    else if (mannerScore>=0 & mannerScore <100){
+//                        mannerScore += 1;
+//                    }
+//                    else{
+//                        mannerScore = 0;
+//                    }
                 }
             }
         });
@@ -185,15 +214,20 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(mannerScore>=100){
+                    mannerScore -= 1;
+                    if(mannerScore>100)
                         mannerScore = 100;
-                    }
-                    else if (mannerScore>0 & mannerScore <100){
-                        mannerScore -= 1;
-                    }
-                    else{
+                    else if(mannerScore<0)
                         mannerScore = 0;
-                    }
+//                    if(mannerScore>=100){
+//                        mannerScore = 100;
+//                    }
+//                    else if (mannerScore>0 & mannerScore <100){
+//                        mannerScore -= 1;
+//                    }
+//                    else{
+//                        mannerScore = 0;
+//                    }
                 }
             }
         });
@@ -202,15 +236,20 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(itemScore>=100){
+                    itemScore += 2;
+                    if(itemScore>100)
                         itemScore = 100;
-                    }
-                    else if (itemScore>=0 & itemScore <100){
-                        itemScore += 2;
-                    }
-                    else{
+                    else if(itemScore<0)
                         itemScore = 0;
-                    }
+//                    if(itemScore>=100){
+//                        itemScore = 100;
+//                    }
+//                    else if (itemScore>=0 & itemScore <100){
+//                        itemScore += 2;
+//                    }
+//                    else{
+//                        itemScore = 0;
+//                    }
                 }
             }
         });
@@ -219,15 +258,20 @@ public class ratingActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    if(itemScore>=100){
+                    itemScore -= 1;
+                    if(itemScore>100)
                         itemScore = 100;
-                    }
-                    else if (itemScore>0 & itemScore <100){
-                        itemScore -= 1;
-                    }
-                    else{
+                    else if(itemScore<0)
                         itemScore = 0;
-                    }
+//                    if(itemScore>=100){
+//                        itemScore = 100;
+//                    }
+//                    else if (itemScore>0 & itemScore <100){
+//                        itemScore -= 1;
+//                    }
+//                    else{
+//                        itemScore = 0;
+//                    }
                 }
             }
         });
