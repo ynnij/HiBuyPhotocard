@@ -73,6 +73,8 @@ public class SellAdapter extends RecyclerView.Adapter<ViewHolder>{
                 intent.putExtra("imageURI",arrayList.get(position).getImageURI());
                 intent.putExtra("price",arrayList.get(position).getPrice());
                 intent.putExtra("sellID",arrayList.get(position).getSellID());
+                intent.putExtra("title",arrayList.get(position).getTitle());
+                intent.putExtra("defect",arrayList.get(position).getDefect());
                 v.getContext().startActivity(intent);
 
             }

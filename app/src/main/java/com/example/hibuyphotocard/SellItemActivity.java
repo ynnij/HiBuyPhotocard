@@ -1,14 +1,18 @@
 package com.example.hibuyphotocard;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +20,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.lakue.lakuepopupactivity.PopupActivity;
 import com.lakue.lakuepopupactivity.PopupResult;
 import com.lakue.lakuepopupactivity.PopupType;
@@ -34,6 +42,11 @@ public class SellItemActivity extends AppCompatActivity {
    private FirebaseDatabase database = FirebaseDatabase.getInstance();
    private DatabaseReference databaseReference = database.getReference();
    private Intent intent;
+
+   private FirebaseStorage storage;
+   Uri selectedImageUri;
+    private final int GET_GALLERY_IMAGE = 200;
+
    //private int number;
    private String itemGroupTag;
    private String itemAlbumTag;
@@ -42,12 +55,20 @@ public class SellItemActivity extends AppCompatActivity {
    private String itemDelivery;
    private String itemUserName;
    private String itemImage;
-   private Integer itemPrice;
+   private String itemSellId;
+   private String itemTitle;
+   private String itemPrice;
+   private String itemState;
+   private String itemDefect;
    private ImageView imageView;
    private ImageView imagePopup;
    private TextView groupTagView;
    private TextView albumTagView;
    private TextView memberTagView;
+   private EditText sellTitle;
+   private EditText sellPrice;
+   private EditText sellDelivery;
+   private EditText sellDetail;
    private TextView detailView;
    private TextView deliveryView;
    private TextView userNameView;
@@ -56,6 +77,8 @@ public class SellItemActivity extends AppCompatActivity {
    private Button sellStateButton2;
    private Button sellStateButton3;
    private Button editButton;
+   private ToggleButton sellYesButton;
+   private ToggleButton sellNoButton;
 
    protected void onCreate(Bundle savedInstanceState) {
 
@@ -72,42 +95,83 @@ public class SellItemActivity extends AppCompatActivity {
        itemDelivery = intent.getStringExtra("delivery");
        itemUserName = intent.getStringExtra("userName");
        itemImage = intent.getStringExtra("imageURI");
-       itemPrice = intent.getIntExtra("price",0);
+       itemPrice = intent.getStringExtra("price");
+       itemTitle = intent.getStringExtra("title");
+       itemSellId = intent.getStringExtra("sellID");
+       //itemDefect = intent.getStringExtra("defect");
+
+
 
        groupTagView = findViewById(R.id.sellListGroupTag);
        albumTagView = findViewById(R.id.sellListAlbumrTag);
        memberTagView = findViewById(R.id.sellListMemberTag);
-       detailView = findViewById(R.id.sellListDetail);
-       deliveryView = findViewById(R.id.sellListDelivery);
-       userNameView = findViewById(R.id.sellListUserName);
+       //detailView = findViewById(R.id.sellListDetail);
+       //deliveryView = findViewById(R.id.sellListDelivery);
+       //userNameView = findViewById(R.id.sellListUserName);
        imageView = findViewById(R.id.sellListImage);
-       priceView = findViewById(R.id.sellListPrice);
+       //priceView = findViewById(R.id.sellListPrice);
        sellStateButton1 = findViewById(R.id.sellStateButton1);
        sellStateButton2 = findViewById(R.id.sellStateButton2);
        sellStateButton3 = findViewById(R.id.sellStateButton3);
        editButton = findViewById(R.id.editButton);
+       sellYesButton = findViewById(R.id.sellYesButton);
+       sellNoButton = findViewById(R.id.sellNoButton);
+
+       sellDelivery = findViewById(R.id.sellListDelivery);
+       sellDetail = findViewById(R.id.sellListDetail);
+       sellPrice = findViewById(R.id.sellPrice);
+       sellTitle = findViewById(R.id.sellTitle);
 
        groupTagView.setText(itemGroupTag);
        albumTagView.setText(itemAlbumTag);
        memberTagView.setText(itemMemberTag);
-       detailView.setText(itemDetail);
-       deliveryView.setText(itemDelivery);
-       userNameView.setText(itemUserName);
-       priceView.setText(String.valueOf(itemPrice));
-       Glide.with(imageView).load(itemImage).into(imageView);
+       //detailView.setText(itemDetail);
+       //deliveryView.setText(itemDelivery);
+       //userNameView.setText(itemUserName);
+       //priceView.setText(String.valueOf(itemPrice));
+       //Glide.with(imageView).load(itemImage).into(imageView);
 
-       //이미지 클릭 시 팝업
-       imageView.setOnClickListener(new View.OnClickListener() {
+       sellDetail.setText(itemDetail);
+       sellPrice.setText(itemPrice);
+       sellDelivery.setText(itemDelivery);
+       sellTitle.setText(itemTitle);
+
+
+       storage = FirebaseStorage.getInstance();
+       StorageReference storageReference = storage.getReference();
+       StorageReference riversRef = storageReference.child(itemImage);
+       riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
            @Override
-           public void onClick(View v) {
-               Intent intent = new Intent(getBaseContext(), PopupActivity.class);
-               intent.putExtra("type", PopupType.IMAGE);
-               intent.putExtra("title", itemImage); //Image
-               intent.putExtra("buttonLeft", "종료");
-               intent.putExtra("buttonRight", "상세보기");
-               startActivityForResult(intent, 4);
+           public void onSuccess(Uri uri) {
+               Glide.with(imageView).load(uri).into(imageView);
            }
        });
+
+       storage = FirebaseStorage.getInstance();
+       imageView.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v) {
+
+               Intent intent = new Intent(Intent.ACTION_PICK);
+               intent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+               startActivityForResult(intent, GET_GALLERY_IMAGE);
+           }
+       });
+
+
+
+
+       //이미지 클릭 시 팝업
+//       imageView.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//               Intent intent = new Intent(getBaseContext(), PopupActivity.class);
+//               intent.putExtra("type", PopupType.IMAGE);
+//               intent.putExtra("title", itemImage); //Image
+//               intent.putExtra("buttonLeft", "종료");
+//               intent.putExtra("buttonRight", "상세보기");
+//               startActivityForResult(intent, 4);
+//           }
+//       });
 
        sellStateButton1.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -139,63 +203,116 @@ public class SellItemActivity extends AppCompatActivity {
            }
        });
 
+       sellYesButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(isChecked){
+                   itemDefect = "하자 있음";
+               }
+           }
+       });
+
+       sellNoButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(isChecked){
+                   itemDefect = "하자 없음";
+               }
+           }
+       });
+
+       if(itemState == null)
+           itemDefect = intent.getStringExtra("defect");
+
+
        editButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               databaseReference.child("Sell").child(itemSellId).child("detail").setValue(sellDetail.getText().toString());
+               databaseReference.child("Sell").child(itemSellId).child("title").setValue(sellTitle.getText().toString());
+               databaseReference.child("Sell").child(itemSellId).child("price").setValue(sellPrice.getText().toString());
+               databaseReference.child("Sell").child(itemSellId).child("delivery").setValue(sellDelivery.getText().toString());
+               databaseReference.child("Sell").child(itemSellId).child("defect").setValue(itemDefect);
+               if (selectedImageUri == null){
+                   databaseReference.child("Sell").child(itemSellId).child("imageURI").setValue(itemImage);
+               }
+               else{
+                   databaseReference.child("Sell").child(itemSellId).child("imageURI").setValue(selectedImageUri.toString());
+               }
+
+               Toast.makeText(SellItemActivity.this, "판매글 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
                Intent intent = new Intent(SellItemActivity.this,SellMainActivity.class);
                startActivity(intent);
            }
        });
+
+
    }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            //데이터 받기
+//            if(requestCode == 1){
+//                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+//                if(result == PopupResult.CENTER){
+//                    // 작성 코드
+//                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            if(requestCode == 2){
+//                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+//                if(result == PopupResult.LEFT){
+//                    // 작성 코드
+//                    Toast.makeText(this, "LEFT", Toast.LENGTH_SHORT).show();
+//
+//                } else if(result == PopupResult.RIGHT){
+//                    // 작성 코드
+//                    Toast.makeText(this, "RIGHT", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            }
+//            if(requestCode == 3){
+//                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+//                if(result == PopupResult.CENTER){
+//                    // 작성 코드
+//                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            }
+//            if(requestCode == 4){
+//                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+//                if(result == PopupResult.IMAGE){
+//                    // 작성 코드
+//                    Toast.makeText(this, "IMAGE", Toast.LENGTH_SHORT).show();
+//
+//                } else if(result == PopupResult.CENTER){
+//                    // 작성 코드
+//                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            }
+//        }
+//    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            //데이터 받기
-            if(requestCode == 1){
-                PopupResult result = (PopupResult) data.getSerializableExtra("result");
-                if(result == PopupResult.CENTER){
-                    // 작성 코드
-                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
-                }
-            }
-            if(requestCode == 2){
-                PopupResult result = (PopupResult) data.getSerializableExtra("result");
-                if(result == PopupResult.LEFT){
-                    // 작성 코드
-                    Toast.makeText(this, "LEFT", Toast.LENGTH_SHORT).show();
+        if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-                } else if(result == PopupResult.RIGHT){
-                    // 작성 코드
-                    Toast.makeText(this, "RIGHT", Toast.LENGTH_SHORT).show();
+            selectedImageUri = data.getData();
+            imageView.setImageURI(selectedImageUri);
+            StorageReference storageRef = storage.getReference();
+            StorageReference riversRef=storageRef.child(selectedImageUri.toString());
+            UploadTask uploadTask = riversRef.putFile(selectedImageUri);
 
-                }
-            }
-            if(requestCode == 3){
-                PopupResult result = (PopupResult) data.getSerializableExtra("result");
-                if(result == PopupResult.CENTER){
-                    // 작성 코드
-                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
 
-                }
-            }
-            if(requestCode == 4){
-                PopupResult result = (PopupResult) data.getSerializableExtra("result");
-                if(result == PopupResult.IMAGE){
-                    // 작성 코드
-                    Toast.makeText(this, "IMAGE", Toast.LENGTH_SHORT).show();
-
-                } else if(result == PopupResult.CENTER){
-                    // 작성 코드
-                    Toast.makeText(this, "CENTER", Toast.LENGTH_SHORT).show();
-
-                }
-            }
         }
-    }
 
+    }
 
 
 }

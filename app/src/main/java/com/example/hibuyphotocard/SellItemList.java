@@ -14,7 +14,7 @@ public class SellItemList {
     private String sellID;
     private String state;
     private Boolean rateState;
-    private int price;
+    private String price;
 
     public SellItemList(){}
 
@@ -58,11 +58,11 @@ public class SellItemList {
         this.memberTag = memberTag;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

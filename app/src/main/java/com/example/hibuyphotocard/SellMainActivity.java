@@ -134,23 +134,28 @@ public class SellMainActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 sell = (ArrayList)dataSnapshot.getValue(); //firebase에서 wishList 받아오면 데이터 필터링 시작
-                                SellItemList = mDatabase.child("Sell");
-                                SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot sellData) {
-                                        for(DataSnapshot snapshot: sellData.getChildren()){
-                                            SellItemList itemList = snapshot.getValue(SellItemList.class);
-                                            if(sell.contains(itemList.getSellID())){
-                                                sellItem.add(itemList);
+                                if(sell != null){
+                                    SellItemList = mDatabase.child("Sell");
+                                    SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot sellData) {
+                                            for(DataSnapshot snapshot: sellData.getChildren()){
+                                                SellItemList itemList = snapshot.getValue(SellItemList.class);
+                                                if(sell.contains(itemList.getSellID())){
+                                                    sellItem.add(itemList);
+                                                }
                                             }
+                                            adapter.notifyDataSetChanged();
                                         }
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                                    }
-                                });
+                                        }
+                                    });
+                                }
+                                else{
+
+                                }
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {

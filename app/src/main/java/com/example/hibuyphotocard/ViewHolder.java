@@ -37,12 +37,12 @@ public class ViewHolder extends RecyclerView.ViewHolder{
         sellPrice = itemView.findViewById(R.id.sellPrice);
 
         //버튼 비활성화하고 안에서 거래 예약 누를 수 있도록 함
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseReference.child("Sell").child("sell01").child("state").setValue("예약중");
-            }
-        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                databaseReference.child("Sell").child("sell01").child("state").setValue("예약중");
+//            }
+//        });
 
         //리사이클러뷰 버튼 이벤트
 //        button.setOnTouchListener(new View.OnTouchListener() {
