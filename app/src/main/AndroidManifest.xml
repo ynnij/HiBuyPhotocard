@@ -24,6 +24,7 @@
         <activity android:name=".BuyMainActivity" />
         <activity android:name=".BuyItemActivity" />
         <activity android:name=".ratingActivity" />
+        <activity android:name=".WritingActivity" />
     </application>
 
 </manifest>
