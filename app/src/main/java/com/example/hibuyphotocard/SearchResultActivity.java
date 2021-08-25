@@ -138,5 +138,12 @@ public class SearchResultActivity extends AppCompatActivity {
         return "#565656";
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adapter.notifyDataSetChanged();
+    }
+
 }
 
