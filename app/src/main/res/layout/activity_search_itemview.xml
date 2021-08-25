@@ -67,6 +67,7 @@
                         android:layout_centerVertical="true"
                         android:background="@drawable/favorite_button"
                         android:layout_margin="8dp"
+                        android:enabled="false"
                         android:checked="false"
                         android:text=""
                         android:textOff=""

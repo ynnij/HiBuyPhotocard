@@ -120,12 +120,13 @@
                 <LinearLayout
                     android:id="@+id/album_label"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal"
+                    android:overScrollMode="ifContentScrolls"
                     android:layout_marginLeft="50dp"
-                    android:isScrollContainer="true"
                     />
+
 
             </LinearLayout>
 
