@@ -1,5 +1,6 @@
 package com.example.hibuyphotocard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +72,7 @@ public class WishListActivity extends AppCompatActivity {
         wishItem = new ArrayList<>();
         wishItem.clear();
 
+        /*
         mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 연결
         allUsers = mDatabase.child("id_list");
         allUsers.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -84,7 +86,11 @@ public class WishListActivity extends AppCompatActivity {
                         wishListDB.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                wish = (ArrayList)dataSnapshot.getValue(); //firebase에서 wishList 받아오면 데이터 필터링 시작
+                                HashMap<String,String> hashMap = (HashMap<String, String>) dataSnapshot.getValue();
+                                if(hashMap !=null){
+                                    Set<String> keySet = hashMap.keySet();
+                                    wish = new ArrayList<String>(keySet);
+                                }
                                 if(wish !=null){  // 위시리스트가 있는 사용자는 위시리스트 불러오기
                                     SellItemList = mDatabase.child("Sell");
                                     SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -120,6 +126,7 @@ public class WishListActivity extends AppCompatActivity {
             }
         });
 
+        */
 
 
         recyclerView = findViewById(R.id.recyclerviewWish);
@@ -137,6 +144,63 @@ public class WishListActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        wishItem.clear();
+        getWish();
         adapter.notifyDataSetChanged();
+    }
+
+    public void getWish(){
+        mDatabase = FirebaseDatabase.getInstance().getReference(); //firebase 연결
+        allUsers = mDatabase.child("id_list");
+        allUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot datas : snapshot.getChildren()) {
+                    String user = datas.child("email").getValue(String.class);
+                    if(user.equals(email)){
+                        nickName = datas.getKey();
+                        wishListDB = mDatabase.child("id_list").child(nickName).child("wishList"); //유저의 찜목록 가져오기
+                        wishListDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                HashMap<String,String> hashMap = (HashMap<String, String>) dataSnapshot.getValue();
+                                if(hashMap !=null){
+                                    Set<String> keySet = hashMap.keySet();
+                                    wish = new ArrayList<String>(keySet);
+                                }
+                                if(wish !=null){  // 위시리스트가 있는 사용자는 위시리스트 불러오기
+                                    SellItemList = mDatabase.child("Sell");
+                                    SellItemList.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot sellData) {
+                                            for(DataSnapshot snapshot: sellData.getChildren()){
+                                                SearchItemList itemList = snapshot.getValue(SearchItemList.class);
+                                                if(wish.contains(itemList.getSellID())){
+                                                    wishItem.add(itemList);
+                                                }
+                                            }
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
+                                }
+                                else {  //위시리스트가 없는 경우 아무것도 표시하지 않음
+
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
