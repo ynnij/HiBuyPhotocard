@@ -100,24 +100,26 @@ public class SearchDialogActivity extends Activity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                             SearchItemList sellItemList = snapshot.getValue(SearchItemList.class);
-                            if(selectGroup.equals("")){  //그룹 선택 안한 경우(하위 항목 선택 X)
-                                itemList.add(sellItemList); //모든 판매글 저장
-                            }
-                            else {
-                                if(selectAlbum.equals("")&&selectMember.equals("") //그룹만 선택된 경우
-                                        && sellItemList.getGroupTag().equals(selectGroup))
-                                    itemList.add(sellItemList);
-                                else if(selectAlbum.equals("") && sellItemList.getGroupTag().equals(selectGroup)
-                                        && sellItemList.getMemberTag().equals(selectMember))  // 그룹, 멤버만 선택한 경우
-                                    itemList.add(sellItemList);
-                                else if(selectMember.equals("") && sellItemList.getGroupTag().equals(selectGroup) //그룹, 앨범만 선택한 경우
-                                        && sellItemList.getAlbumTag().equals(selectAlbum))
-                                    itemList.add(sellItemList);
+                            if(!sellItemList.getState().equals("거래완료")){ // 판매글 상태가 거래완료가 아닌 글만 조건 체크
+                                if(selectGroup.equals("")){  //그룹 선택 안한 경우(하위 항목 선택 X)
+                                    itemList.add(sellItemList); //모든 판매글 저장
+                                }
                                 else {
-                                    if(sellItemList.getGroupTag().equals(selectGroup) // 전체 선택한 값이 있는 경우
-                                            && sellItemList.getAlbumTag().equals(selectAlbum)
-                                            && sellItemList.getMemberTag().equals(selectMember))
+                                    if(selectAlbum.equals("")&&selectMember.equals("") //그룹만 선택된 경우
+                                            && sellItemList.getGroupTag().equals(selectGroup))
                                         itemList.add(sellItemList);
+                                    else if(selectAlbum.equals("") && sellItemList.getGroupTag().equals(selectGroup)
+                                            && sellItemList.getMemberTag().equals(selectMember))  // 그룹, 멤버만 선택한 경우
+                                        itemList.add(sellItemList);
+                                    else if(selectMember.equals("") && sellItemList.getGroupTag().equals(selectGroup) //그룹, 앨범만 선택한 경우
+                                            && sellItemList.getAlbumTag().equals(selectAlbum))
+                                        itemList.add(sellItemList);
+                                    else {
+                                        if(sellItemList.getGroupTag().equals(selectGroup) // 전체 선택한 값이 있는 경우
+                                                && sellItemList.getAlbumTag().equals(selectAlbum)
+                                                && sellItemList.getMemberTag().equals(selectMember))
+                                            itemList.add(sellItemList);
+                                    }
                                 }
                             }
                         }
