@@ -91,7 +91,7 @@
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userProfile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -108,19 +108,70 @@
                     android:layout_weight="1"
                     android:text="사용자이름"
                     android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginRight="8dp"
+                    >
 
+                    <TextView
+                        android:id="@+id/deliveryScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="30"
+                        android:textColor="#FFB8B8"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewDelivery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="배송" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginRight="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/mannerScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="30"
+                        android:textColor="#FFD748"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewManner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="태도" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/itemScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="5.0"
+                        android:text="30"
                         android:textColor="#83D2FE"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -131,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_weight="1"
-                        android:text="덕심" />
+                        android:text="상품" />
                 </LinearLayout>
 
             </LinearLayout>

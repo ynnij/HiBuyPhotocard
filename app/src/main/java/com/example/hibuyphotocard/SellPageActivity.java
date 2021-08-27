@@ -2,6 +2,7 @@ package com.example.hibuyphotocard;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -27,9 +30,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import com.lakue.lakuepopupactivity.PopupActivity;
+import com.lakue.lakuepopupactivity.PopupResult;
+import com.lakue.lakuepopupactivity.PopupType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class SellPageActivity extends AppCompatActivity {
@@ -58,6 +68,7 @@ public class SellPageActivity extends AppCompatActivity {
     private String sellID;
     private Boolean likeState;
 
+    private ImageView sellListImage;
     private String state;
 
     private Button backButton;
@@ -68,7 +79,18 @@ public class SellPageActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference allUsers;
     private DatabaseReference wishListDB;
+
+    private DatabaseReference userDB;
+    private TextView deliveryScore;
+    private TextView mannerScore;
+    private TextView itemScore;
+
     private Button chatButton;
+
+    private FirebaseStorage storage;
+    private ImageView userProfile;
+    private DatabaseReference userProfileDB;
+    private Uri imgUri;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +115,7 @@ public class SellPageActivity extends AppCompatActivity {
         itemDetail = intent.getStringExtra("detail");
         itemDelivery = intent.getStringExtra("delivery");
         itemUserName = intent.getStringExtra("userName");
-        itemImage = intent.getStringExtra("imageURI");
+        itemImage = intent.getStringExtra("imageURI");  // 이미지 URI
         itemPrice = intent.getStringExtra("price");
         sellID = intent.getStringExtra("sellID");
         state = intent.getStringExtra("state");
@@ -106,15 +128,70 @@ public class SellPageActivity extends AppCompatActivity {
         else
             sellListFavorite.setChecked(false);
 
+        deliveryScore = findViewById(R.id.deliveryScore);
+        mannerScore = findViewById(R.id.mannerScore);
+        itemScore = findViewById(R.id.itemScore);
+
+        userDB = mDatabase.child("id_list").child(itemUserName).child("mypage");
+        userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // 사용자 점수 받아오기
+                Map<String,Long> map = (Map<String,Long>)snapshot.getValue();
+                deliveryScore.setText(map.get("deliveryScore").toString());
+                mannerScore.setText(map.get("mannerScore").toString());
+                itemScore.setText(map.get("itemScore").toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         groupTagView = findViewById(R.id.sellListGroupTag);
         albumTagView = findViewById(R.id.sellListAlbumrTag);
         memberTagView = findViewById(R.id.sellListMemberTag);
         detailView = findViewById(R.id.sellListDetail);
         deliveryView = findViewById(R.id.sellListDelivery);
         userNameView = findViewById(R.id.sellListUserName);
-        imageView = findViewById(R.id.sellListImage);
+        imageView = findViewById(R.id.sellListImage); // 포토카드 이미지
         priceView = findViewById(R.id.sellListPrice);
 
+
+
+
+        userProfile = findViewById(R.id.userProfile);
+        userProfileDB = mDatabase.child("id_list").child(itemUserName).child("image");
+        userProfileDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String profileUri = (String) snapshot.getValue();
+                storage =FirebaseStorage.getInstance();
+                StorageReference storageReference = storage.getReference();
+                StorageReference riverRef = storageReference.child(profileUri);
+                riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(getApplicationContext()).load(uri).into(userProfile);
+                    }
+                });
+
+                StorageReference pcRef = storageReference.child(itemImage);
+                pcRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(getApplicationContext()).load(uri).into(imageView);
+                        imgUri = uri;
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         groupTagView.setText(itemGroupTag);
         albumTagView.setText(itemAlbumTag);
@@ -123,7 +200,7 @@ public class SellPageActivity extends AppCompatActivity {
         deliveryView.setText(itemDelivery);
         userNameView.setText(itemUserName);
         priceView.setText(String.valueOf(itemPrice));
-        Glide.with(imageView).load(itemImage).into(imageView);
+//        Glide.with(imageView).load(itemImage).into(imageView);
 
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +240,6 @@ public class SellPageActivity extends AppCompatActivity {
                                            wishListDB.child(String.valueOf(sellID)).setValue(sellID);
                                         }
                                         else { // 취소하면 데이터베이스에서 삭제
-                                           // wishListDB.child(String.valueOf(wish.indexOf(sellID))).removeValue();
                                             wishListDB.child(sellID).removeValue();
 
                                         }
@@ -183,18 +259,54 @@ public class SellPageActivity extends AppCompatActivity {
             }
         });
         //이미지 클릭 시 팝업
-        /*
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), PopupActivity.class);
                 intent.putExtra("type", PopupType.IMAGE);
-                intent.putExtra("title", itemImage); //Image
+                intent.putExtra("title", imgUri.toString()); //Image
+                Log.d("확인",imgUri.toString());
                 intent.putExtra("buttonLeft", "종료");
                 intent.putExtra("buttonRight", "상세보기");
                 startActivityForResult(intent, 4);
             }
         });
-        */
+
+    }
+
+        @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            //데이터 받기
+            if(requestCode == 1){
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.CENTER){
+                }
+            }
+            if(requestCode == 2){
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.LEFT){
+
+                } else if(result == PopupResult.RIGHT){
+
+                }
+            }
+            if(requestCode == 3){
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.CENTER){
+                }
+            }
+            if(requestCode == 4){
+                PopupResult result = (PopupResult) data.getSerializableExtra("result");
+                if(result == PopupResult.IMAGE){
+
+                } else if(result == PopupResult.CENTER){
+
+
+                }
+            }
+        }
     }
 }

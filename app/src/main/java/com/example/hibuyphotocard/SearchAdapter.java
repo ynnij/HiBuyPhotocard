@@ -2,6 +2,7 @@ package com.example.hibuyphotocard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -22,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +45,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     private DatabaseReference allUsers;
     private DatabaseReference wishListDB;
     private Boolean like = false;
+    private FirebaseStorage storage;
 
     public  SearchAdapter(ArrayList<SearchItemList> itemList, Context context){
         this.itemList = itemList;
@@ -100,9 +105,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             }
         });
 
-        Glide.with(holder.itemView)
-                .load(itemList.get(position).getImageURI())
-                .into(holder.search_img);
+
+        storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference riverRef = storageReference.child(itemList.get(position).getImageURI());
+        riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(holder.itemView).load(uri).into(holder.search_img);
+            }
+        });
         holder.price.setText(itemList.get(position).getPrice()+"원");
         holder.seller.setText(itemList.get(position).getUserName());
 
