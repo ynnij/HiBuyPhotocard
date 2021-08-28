@@ -3,6 +3,7 @@ package com.example.hibuyphotocard;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,7 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyViewHolder>{
     private ArrayList<SellItemList> arrayList;
     private Context context;
     private Intent intent;
+    private FirebaseStorage storage;
 
 
     public BuyAdapter(ArrayList<SellItemList> arrayList, Context context) {
@@ -40,14 +45,24 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyViewHolder>{
     //각 item에 매칭을 시켜주는 역할
     @Override
     public void onBindViewHolder(@NonNull BuyAdapter.BuyViewHolder holder, int position) {
-        Glide.with(holder.itemView)
-                .load(arrayList.get(position).getImageURI())
-                .into(holder.sellIcon);
+//        Glide.with(holder.itemView)
+//                .load(arrayList.get(position).getImageURI())
+//                .into(holder.sellIcon);
         holder.sellTitle.setText(arrayList.get(position).getTitle());
         holder.sellGroupTag.setText(arrayList.get(position).getGroupTag());
         holder.sellAlbumTag.setText(arrayList.get(position).getAlbumTag());
         holder.sellMemberTag.setText(arrayList.get(position).getMemberTag());
         holder.sellPrice.setText(String.valueOf(arrayList.get(position).getPrice()));
+
+        storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference riverRef = storageReference.child(arrayList.get(position).getImageURI());
+        riverRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(holder.itemView).load(uri).into(holder.sellIcon);
+            }
+        });
 
         //viewHolder 버튼 이벤트 변경을 위한
         SellItemList sellItemList = arrayList.get(position);

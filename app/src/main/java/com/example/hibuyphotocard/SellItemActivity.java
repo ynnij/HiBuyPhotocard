@@ -73,9 +73,9 @@ public class SellItemActivity extends AppCompatActivity {
    private TextView deliveryView;
    private TextView userNameView;
    private TextView priceView;
-   private Button sellStateButton1;
-   private Button sellStateButton2;
-   private Button sellStateButton3;
+   private ToggleButton sellStateButton1;
+   private ToggleButton sellStateButton2;
+   private ToggleButton sellStateButton3;
    private Button editButton;
    private ToggleButton sellYesButton;
    private ToggleButton sellNoButton;
@@ -98,7 +98,8 @@ public class SellItemActivity extends AppCompatActivity {
        itemPrice = intent.getStringExtra("price");
        itemTitle = intent.getStringExtra("title");
        itemSellId = intent.getStringExtra("sellID");
-       //itemDefect = intent.getStringExtra("defect");
+       itemDefect = intent.getStringExtra("defect");
+       itemState = intent.getStringExtra("state");
 
 
 
@@ -157,6 +158,23 @@ public class SellItemActivity extends AppCompatActivity {
            }
        });
 
+       if(itemDefect.equals("하자 있음")){
+           sellYesButton.setChecked(true);
+       }
+       else if(itemDefect.equals("하자 없음")){
+           sellNoButton.setChecked(true);
+       }
+
+       if(itemState.equals("판매중")){
+           sellStateButton1.setChecked(true);
+       }
+       else if(itemState.equals("예약중")){
+           sellStateButton2.setChecked(true);
+       }
+       else if(itemState.equals("거래완료")){
+           sellStateButton3.setChecked(true);
+       }
+
 
 
 
@@ -173,33 +191,78 @@ public class SellItemActivity extends AppCompatActivity {
 //           }
 //       });
 
-       sellStateButton1.setOnClickListener(new View.OnClickListener() {
+//       sellStateButton1.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//
+//               intent = getIntent();
+//               String sellID = intent.getStringExtra("sellID");
+//               databaseReference.child("Sell").child(sellID).child("state").setValue("판매중");
+//
+//               Toast.makeText(SellItemActivity.this,"\'판매중\'을 선택하였습니다.",Toast.LENGTH_SHORT).show();
+//           }
+//       });
+
+//       sellStateButton2.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//               intent = getIntent();
+//               String sellID = intent.getStringExtra("sellID");
+//               databaseReference.child("Sell").child(sellID).child("state").setValue("예약중");
+//               Toast.makeText(SellItemActivity.this,"\'예약중\'을 선택하였습니다.",Toast.LENGTH_SHORT).show();
+//           }
+//       });
+
+//       sellStateButton3.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//               intent = getIntent();
+//               String sellID = intent.getStringExtra("sellID");
+//               databaseReference.child("Sell").child(sellID).child("state").setValue("거래완료");
+//               Toast.makeText(SellItemActivity.this,"\'거래완료\'를 선택하였습니다.",Toast.LENGTH_SHORT).show();
+//           }
+//       });
+
+       sellStateButton1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
            @Override
-           public void onClick(View v) {
-               intent = getIntent();
-               String sellID = intent.getStringExtra("sellID");
-               databaseReference.child("Sell").child(sellID).child("state").setValue("판매중");
-               Toast.makeText(SellItemActivity.this,"\'판매중\'을 선택하였습니다.",Toast.LENGTH_SHORT).show();
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(isChecked){
+                   sellStateButton2.setChecked(false);
+                   sellStateButton3.setChecked(false);
+                   itemState = "판매중";
+//                   intent = getIntent();
+//                   String sellID = intent.getStringExtra("sellID");
+//
+//                   databaseReference.child("Sell").child(sellID).child("state").setValue("판매중");
+               }
            }
        });
 
-       sellStateButton2.setOnClickListener(new View.OnClickListener() {
+       sellStateButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
            @Override
-           public void onClick(View v) {
-               intent = getIntent();
-               String sellID = intent.getStringExtra("sellID");
-               databaseReference.child("Sell").child(sellID).child("state").setValue("예약중");
-               Toast.makeText(SellItemActivity.this,"\'예약중\'을 선택하였습니다.",Toast.LENGTH_SHORT).show();
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(isChecked){
+                   sellStateButton1.setChecked(false);
+                   sellStateButton3.setChecked(false);
+                   itemState = "예약중";
+//                   intent = getIntent();
+//                   String sellID = intent.getStringExtra("sellID");
+//                   databaseReference.child("Sell").child(sellID).child("state").setValue("예약중");
+               }
            }
        });
 
-       sellStateButton3.setOnClickListener(new View.OnClickListener() {
+       sellStateButton3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
            @Override
-           public void onClick(View v) {
-               intent = getIntent();
-               String sellID = intent.getStringExtra("sellID");
-               databaseReference.child("Sell").child(sellID).child("state").setValue("거래완료");
-               Toast.makeText(SellItemActivity.this,"\'거래완료\'를 선택하였습니다.",Toast.LENGTH_SHORT).show();
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(isChecked){
+                   sellStateButton1.setChecked(false);
+                   sellStateButton2.setChecked(false);
+                   itemState = "거래완료";
+//                   intent = getIntent();
+//                   String sellID = intent.getStringExtra("sellID");
+//                   databaseReference.child("Sell").child(sellID).child("state").setValue("거래완료");
+               }
            }
        });
 
@@ -208,6 +271,7 @@ public class SellItemActivity extends AppCompatActivity {
            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                if(isChecked){
                    itemDefect = "하자 있음";
+                   sellNoButton.setChecked(false);
                }
            }
        });
@@ -217,6 +281,7 @@ public class SellItemActivity extends AppCompatActivity {
            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                if(isChecked){
                    itemDefect = "하자 없음";
+                   sellYesButton.setChecked(false);
                }
            }
        });
@@ -233,6 +298,7 @@ public class SellItemActivity extends AppCompatActivity {
                databaseReference.child("Sell").child(itemSellId).child("price").setValue(sellPrice.getText().toString());
                databaseReference.child("Sell").child(itemSellId).child("delivery").setValue(sellDelivery.getText().toString());
                databaseReference.child("Sell").child(itemSellId).child("defect").setValue(itemDefect);
+               databaseReference.child("Sell").child(itemSellId).child("state").setValue(itemState);
                if (selectedImageUri == null){
                    databaseReference.child("Sell").child(itemSellId).child("imageURI").setValue(itemImage);
                }
