@@ -105,6 +105,7 @@ public class WritingActivity extends AppCompatActivity {
         noButton = findViewById(R.id.writeNoButton);
         saveButton = findViewById(R.id.saveButton);
 
+
         //------로그인 사용자 닉네임 가져오기
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null) {
@@ -155,6 +156,7 @@ public class WritingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     state = "하자 있음";
+                    noButton.setChecked(false);
                 }
             }
         });
@@ -164,6 +166,7 @@ public class WritingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     state = "하자 없음";
+                    yesButton.setChecked(false);
                 }
             }
         });
@@ -193,29 +196,36 @@ public class WritingActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //SellItemList sellItemList = new SellItemList();
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("albumTag").setValue("Lived(White ver.)"); //추후 변경
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("defect").setValue(state);
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("delivery").setValue(writeDelivery.getText().toString());
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("detail").setValue(writeDetail.getText().toString());
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("email").setValue(email);
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("groupTag").setValue("원어스"); //추후 변경
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("imageURI").setValue(selectedImageUri.toString());
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("memberTag").setValue("시온"); //추후 변경
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("price").setValue(writePrice.getText().toString());
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("rateState").setValue(false); //default
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("sellID").setValue("sell"+String.valueOf(sellCnt+1));
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("state").setValue("판매중"); //default
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("title").setValue(writeTitle.getText().toString());
-                databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("userName").setValue(nickName);
 
-                //sell 하위로 들어가도록 해야함
-                databaseReference.child("id_list").child(nickName).child("sell").child(String.valueOf(cnt)).setValue("sell"+String.valueOf(sellCnt+1));
+                if(writeTitle.getText()!=null&writePrice.getText()!=null&writeDetail.getText()!=null&writeDelivery.getText()!=null&selectedImageUri!=null&(yesButton.isChecked()|noButton.isChecked()))
+                {
+                    //SellItemList sellItemList = new SellItemList();
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("albumTag").setValue("Lived(White ver.)"); //추후 변경
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("defect").setValue(state);
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("delivery").setValue(writeDelivery.getText().toString());
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("detail").setValue(writeDetail.getText().toString());
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("email").setValue(email);
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("groupTag").setValue("원어스"); //추후 변경
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("imageURI").setValue(selectedImageUri.toString());
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("memberTag").setValue("시온"); //추후 변경
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("price").setValue(writePrice.getText().toString());
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("rateState").setValue(false); //default
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("sellID").setValue("sell"+String.valueOf(sellCnt+1));
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("state").setValue("판매중"); //default
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("title").setValue(writeTitle.getText().toString());
+                    databaseReference.child("Sell").child("sell"+String.valueOf(sellCnt+1)).child("userName").setValue(nickName);
 
-                Toast.makeText(WritingActivity.this, "판매글 등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    //sell 하위로 들어가도록 해야함
+                    databaseReference.child("id_list").child(nickName).child("sell").child(String.valueOf(cnt)).setValue("sell"+String.valueOf(sellCnt+1));
 
-                Intent intent = new Intent(WritingActivity.this,MainActivity.class);
-                startActivity(intent);
+                    Toast.makeText(WritingActivity.this, "판매글 등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(WritingActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(WritingActivity.this,"모두 작성해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -101,6 +101,8 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     deliveryScore += 3;
+                    normalButton.setChecked(false);
+                    slowButton.setChecked(false);
                     if(deliveryScore>100)
                         deliveryScore = 100;
                     else if(deliveryScore<0)
@@ -124,6 +126,8 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     deliveryScore += 1;
+                    fastButton.setChecked(false);
+                    slowButton.setChecked(false);
                     if(deliveryScore>100)
                         deliveryScore = 100;
                     else if(deliveryScore<0)
@@ -147,6 +151,8 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     deliveryScore -= 1;
+                    fastButton.setChecked(false);
+                    normalButton.setChecked(false);
                     if(deliveryScore>100)
                         deliveryScore = 100;
                     else if(deliveryScore<0)
@@ -170,6 +176,8 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     mannerScore += 3;
+                    sosoButton.setChecked(false);
+                    badButton.setChecked(false);
                     if(mannerScore>100)
                         mannerScore = 100;
                     else if(mannerScore<0)
@@ -193,6 +201,8 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     mannerScore += 1;
+                    kindButton.setChecked(false);
+                    badButton.setChecked(false);
                     if(mannerScore>100)
                         mannerScore = 100;
                     else if(mannerScore<0)
@@ -215,6 +225,8 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     mannerScore -= 1;
+                    kindButton.setChecked(false);
+                    sosoButton.setChecked(false);
                     if(mannerScore>100)
                         mannerScore = 100;
                     else if(mannerScore<0)
@@ -237,6 +249,7 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     itemScore += 2;
+                    worstButton.setChecked(false);
                     if(itemScore>100)
                         itemScore = 100;
                     else if(itemScore<0)
@@ -259,6 +272,7 @@ public class ratingActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     itemScore -= 1;
+                    greatButton.setChecked(false);
                     if(itemScore>100)
                         itemScore = 100;
                     else if(itemScore<0)
