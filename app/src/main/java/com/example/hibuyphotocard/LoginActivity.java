@@ -39,6 +39,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 public class LoginActivity extends AppCompatActivity {
     private TextView textView_signIn;
     private TextView textView_find;
@@ -48,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText textView_id;
     private DatabaseReference DB;
     private FirebaseUser user;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -110,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getUid()).child("uid").setValue(mAuth.getUid());
                             FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getUid()).child("userName").setValue(user.getEmail());
 
-                            Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), SettingActivity.class);//FragmentActivity
                             startActivity(intent);
                             finish();
                         } else {

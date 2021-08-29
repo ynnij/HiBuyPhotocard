@@ -19,12 +19,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".SettingActivity"/>
+        <activity android:name=".MainActivity"/>
         <activity android:name=".MyPageMain"/>
-        <!--        <activity android:name=".FragmentActivity" />-->
-<!--        <activity android:name=".MessageActivity" />-->
-<!--        <activity android:name=".FragmentActivity2" />-->
+        <activity android:name=".PushSettingActivity"/>
+
+        <activity android:name=".SettingResultActivity"/>
+        <activity android:name=".SearchResultActivity"/>
+
+<!--        <activity android:name=".MyPageMain"/>-->
+<!--        <activity android:name=".PushSettingActivity"/>-->
+
+<!--        <activity android:name=".FragmentActivity"/>-->
+        <activity android:name=".MessageActivity"/>
+        <activity android:name=".FragmentActivity2"/>
+
     </application>
 
 </manifest>
