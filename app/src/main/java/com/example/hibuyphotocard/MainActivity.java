@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private Button search_button; //메인 내 dialog 창 띄우는 버튼
     private Button wishButton; //위시리스트 위한 임시 버튼
 
+    //하단바
+    private LinearLayout contractBtn;
+    private LinearLayout homeBtn;
+    private LinearLayout chatBtn;
+    private LinearLayout mypageBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,36 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WishListActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        //하단바
+        homeBtn = findViewById(R.id.homeBtn);
+        homeBtn.setBackgroundColor(Color.parseColor("#B1E3FF"));
+
+        chatBtn = findViewById(R.id.chatBtn);
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mypageBtn = findViewById(R.id.mypageBtn);
+        mypageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        contractBtn = findViewById(R.id.contractBtn);
+        contractBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
