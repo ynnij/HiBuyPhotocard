@@ -1,13 +1,16 @@
 package com.example.hibuyphotocard;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,10 +50,19 @@ public class BuyMainActivity extends AppCompatActivity {
     private ArrayList buy; // firebase에서 받아온 user의 찜 목록
     //
 
+    //하단바
+    private LinearLayout contractBtn;
+    private LinearLayout homeBtn;
+    private LinearLayout chatBtn;
+    private LinearLayout mypageBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         //-----------버튼 이벤트 처리
 //        Button button = findViewById(R.id.sellButton); //sellIngButton으로 바꾸면 강제 종료 됨 왤까
@@ -193,6 +205,37 @@ public class BuyMainActivity extends AppCompatActivity {
         //adapter = new BuyAdapter(arrayList, this);
         recyclerView.setAdapter(adapter); //리사이클러뷰에 어댑터 연결
 
+
+        //하단바
+        homeBtn = findViewById(R.id.homeBtn);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        chatBtn = findViewById(R.id.chatBtn);
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mypageBtn = findViewById(R.id.mypageBtn);
+        mypageBtn.setBackgroundColor(Color.parseColor("#B1E3FF"));
+
+        contractBtn = findViewById(R.id.contractBtn);
+        contractBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 }
