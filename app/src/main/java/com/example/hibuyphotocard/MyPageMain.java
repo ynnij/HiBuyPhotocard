@@ -1,6 +1,7 @@
 package com.example.hibuyphotocard;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,12 +69,19 @@ public class MyPageMain<CircularImageView> extends AppCompatActivity {
     private FirebaseStorage storage;
     private FirebaseUser user;
 
-    Uri userProfilePhoto;
+//    Uri userProfilePhoto;
+//
+//    public Integer a;
+//    public Integer b;
+//    public Integer c;
+//    public String cs;
 
-    public Integer a;
-    public Integer b;
-    public Integer c;
-    public String cs;
+    //하단바
+    private LinearLayout contractBtn;
+    private LinearLayout homeBtn;
+    private LinearLayout chatBtn;
+    private LinearLayout mypageBtn;
+
 
 
 
@@ -242,6 +251,37 @@ public class MyPageMain<CircularImageView> extends AppCompatActivity {
         });
 
 
+
+        //하단바
+        homeBtn = findViewById(R.id.homeBtn);
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        chatBtn = findViewById(R.id.chatBtn);
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        mypageBtn = findViewById(R.id.mypageBtn);
+        mypageBtn.setBackgroundColor(Color.parseColor("#B1E3FF"));
+
+        contractBtn = findViewById(R.id.contractBtn);
+        contractBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 
