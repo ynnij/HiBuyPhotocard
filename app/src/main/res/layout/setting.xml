@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="설정"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="13dp"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line"
+        android:layout_marginTop="17dp"
+     />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/browser_actions_bg_grey">
+
+        <ImageButton
+            android:id="@+id/ImageButton_푸시알림"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/white_box_nonradius3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="     푸시 알림 "
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            />
+
+        <ImageButton
+            android:id="@+id/ImageButton_로그아웃"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="67dp"
+            android:background="@drawable/white_box_nonradius3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="     로그아웃 "
+            android:textColor="@color/black"
+            android:layout_marginTop="80dp"
+            />
+
+        <ImageButton
+            android:id="@+id/ImageButton_계정탈퇴"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/white_box_nonradius3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="     계정탈퇴 "
+            android:textColor="@color/black"
+            android:layout_marginTop="135dp"
+            />
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

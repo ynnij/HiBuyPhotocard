@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color">
+
+    <RelativeLayout
+        android:id="@+id/signup_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+
+        android:gravity="center"
+
+
+        >
+
+
+        <TextView
+            android:id="@+id/reset_PW"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="비밀번호 재설정"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:gravity="center"
+
+            />
+
+        <TextView
+            android:id="@+id/reset_PW_2"
+            android:layout_width="500dp"
+            android:layout_height="26dp"
+            android:text="가입한 이메일을 입력해주세요(재설정 이메일이 전송됩니다.)"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+
+            android:gravity="center"
+
+            />
+
+
+
+
+
+
+        <EditText
+            android:id="@+id/find_PW"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="70dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="45dp"
+            android:backgroundTint="#605858"
+            android:hint="아이디 (이메일 주소)"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/reset_PW_2"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_find_PW"
+            android:layout_width="95dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="275dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="65dp"
+            android:text="확인"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#605858"
+
+            android:background="@drawable/normal_button"
+            />
+
+
+
+
+
+
+
+        <LinearLayout
+
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:background="#ffffff"
+            android:weightSum="4"
+
+            android:elevation="20dp"
+            >
+            <LinearLayout
+                android:id="@+id/contractBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="5"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:src="@drawable/contract"
+                    android:layout_marginTop="3dp"
+                    android:padding="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="글쓰기"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/homeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:src="@drawable/house"
+                    android:padding="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="홈"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/chatBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:src="@drawable/chat"
+                    android:padding="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="채팅"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/mypageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:padding="15dp"
+                    android:src="@drawable/mypage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="마이페이지"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

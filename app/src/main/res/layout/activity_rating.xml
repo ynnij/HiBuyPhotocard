@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="#F3F3F3"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:weightSum="13">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="평가창"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="배송속도"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/fastButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_pink_button"
+                android:checked="false"
+                android:text="빨라요"
+                android:textColor="@drawable/toggle_text_color_pink"
+                android:textOff="빨라요"
+                android:textOn="빨라요" />
+
+            <ToggleButton
+                android:id="@+id/normalButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_yellow_button"
+                android:text="보통이예요"
+                android:textColor="@drawable/toggle_text_color_yellow"
+                android:textOff="보통이예요"
+                android:textOn="보통이예요" />
+
+            <ToggleButton
+                android:id="@+id/slowButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_blue_button"
+                android:text="느려요"
+                android:textColor="@drawable/toggle_text_color_blue"
+                android:textOff="느려요"
+                android:textOn="느려요" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="판매자 태도"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/kindButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_pink_button"
+                android:text="친절해요"
+                android:textColor="@drawable/toggle_text_color_pink"
+                android:textOff="친절해요"
+                android:textOn="친절해요" />
+
+            <ToggleButton
+                android:id="@+id/sosoButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_yellow_button"
+                android:text="보통이예요"
+                android:textColor="@drawable/toggle_text_color_yellow"
+                android:textOff="보통이예요"
+                android:textOn="보통이예요" />
+
+            <ToggleButton
+                android:id="@+id/badButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_blue_button"
+                android:text="불친절해요"
+                android:textColor="@drawable/toggle_text_color_blue"
+                android:textOff="불친절해요"
+                android:textOn="불친절해요" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="상품 상태"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/greatButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_pink_button"
+                android:text="사진\n그대로예요"
+                android:textColor="@drawable/toggle_text_color_pink"
+                android:textOff="사진\n그대로예요"
+                android:textOn="사진\n그대로예요"
+                android:textSize="14sp" />
+
+            <ToggleButton
+                android:id="@+id/worstButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/rating_blue_button"
+                android:text="사진보다\n별로예요"
+                android:textColor="@drawable/toggle_text_color_blue"
+                android:textOff="사진보다\n별로예요"
+                android:textOn="사진보다\n별로예요" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/checkButton"
+            android:layout_width="300dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="확인"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+</LinearLayout>

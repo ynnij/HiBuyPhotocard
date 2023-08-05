@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="hi.buyphotocard.hbpApp">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/hbp_ic"
+        android:label="하이바이포토카드"
+        android:roundIcon="@mipmap/hbp_ic"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HBP_App" >
+        <activity android:name="hi.buyphotocard.hbpApp.IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="hi.buyphotocard.hbpApp.LoginActivity" />
+        <activity android:name="hi.buyphotocard.hbpApp.MainActivity" />
+        <activity android:name="hi.buyphotocard.hbpApp.SignUpActivity" />
+        <activity android:name="hi.buyphotocard.hbpApp.SettingActivity" />
+        <activity android:name="hi.buyphotocard.hbpApp.FindInfoActivity"
+            />
+        <activity android:name="hi.buyphotocard.hbpApp.MyPageMain"/>
+        <activity android:name="hi.buyphotocard.hbpApp.PushSettingActivity"/>
+        <activity android:name="hi.buyphotocard.hbpApp.ChangeSettingActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.SettingResultActivity"/>
+        <activity android:name="hi.buyphotocard.hbpApp.SearchResultActivity"/>
+
+        <!--        <activity android:name=".MyPageMain"/>-->
+        <!--        <activity android:name=".PushSettingActivity"/>-->
+
+        <!--        <activity android:name=".FragmentActivity"/>-->
+        <activity android:name="hi.buyphotocard.hbpApp.MessageActivity"/>
+        <activity android:name="hi.buyphotocard.hbpApp.FragmentActivity2">
+
+        </activity>
+        <activity android:name="hi.buyphotocard.hbpApp.SellMainActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.SellItemActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.BuyMainActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.BuyItemActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.ratingActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.WritingActivity"/>
+
+
+        <activity android:name="hi.buyphotocard.hbpApp.NoResultActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.WishListActivity"/>
+
+        <activity android:name="hi.buyphotocard.hbpApp.SellPageActivity"/>
+        <activity android:name="hi.buyphotocard.hbpApp.TagDialogActivity"
+            tools:ignore="Instantiatable" />
+        <activity android:name="hi.buyphotocard.hbpApp.TaggingActivity"/>
+
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="hi.buyphotocard.hbpApp.fileprovider"
+            android:exported="false" android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="푸시 알림 설정"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="13dp"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/line"
+        android:layout_marginTop="17dp"
+     />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/browser_actions_bg_grey">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/white_box_nonradius3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="     키워드 알림 "
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="        등록한 키워드 관련 게시물이 새로 등록되었을 때 알림 "
+            android:textColor="@color/black"
+            android:layout_marginTop="45dp"
+            android:textSize="10dp"
+            />
+
+        <Switch
+            android:id="@+id/Switch_키워드알림"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchMinWidth="60dp"
+            android:switchPadding="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentRight="true" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="67dp"
+            android:background="@drawable/white_box_nonradius3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="     채팅 알림 "
+            android:textColor="@color/black"
+            android:layout_marginTop="72dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="        진행 중인 채팅방에 답장이 왔을 때 알림 "
+            android:textColor="@color/black"
+            android:textSize="10dp"
+            android:layout_marginTop="95dp"
+            />
+        <Switch
+            android:id="@+id/Switch_채팅알림"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchMinWidth="60dp"
+            android:switchPadding="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="75dp"
+            android:layout_alignParentRight="true" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

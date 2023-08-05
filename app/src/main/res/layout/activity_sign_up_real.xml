@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color">
+
+
+
+    <RelativeLayout
+        android:id="@+id/signup_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:gravity="center"
+
+        >
+
+
+        <TextView
+            android:id="@+id/signup_signup"
+            android:layout_width="179dp"
+            android:layout_height="26dp"
+            android:text="회원가입"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="90dp"
+            android:gravity="center"
+
+            />
+
+
+
+
+
+
+        <EditText
+            android:id="@+id/signup_email"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="#605858"
+            android:hint="아이디 (이메일 주소)"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/signup_signup"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+        <EditText
+            android:id="@+id/signup_password"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="110dp"
+            android:backgroundTint="#605858"
+            android:hint="비밀번호"
+            android:layout_marginLeft="10dp"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/signup_email"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/signup_name"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="170dp"
+            android:backgroundTint="#605858"
+            android:layout_marginLeft="10dp"
+            android:hint="이름 (실명 입력)"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/signup_password"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/signup_phonenumber"
+            android:layout_width="330dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="225dp"
+            android:backgroundTint="#605858"
+            android:hint="휴대전화번호 ('-' 제외)"
+            android:layout_marginLeft="10dp"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/signup_name"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/signup_accessnumber"
+            android:layout_width="330dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="290dp"
+            android:layout_marginLeft="10dp"
+            android:backgroundTint="#605858"
+            android:hint="인증번호 확인"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/signup_phonenumber"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_double"
+            android:layout_width="95dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="240dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="45dp"
+            android:text="중복확인"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#605858"
+
+            android:background="@drawable/normal_button"
+            />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_auth"
+            android:layout_width="95dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="240dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="225dp"
+            android:text="인증번호 전송"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#605858"
+
+            android:background="@drawable/normal_button"
+            />
+
+        <Button
+            android:id="@+id/button_signbutton"
+            android:layout_width="350dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="350dp"
+            android:text="가입하기"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#605858"
+
+            android:backgroundTint="#ffffff"
+            />
+
+        <TextView
+            android:id="@+id/anothermethod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다른 계정으로 가입"
+            android:textSize="25px"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="420dp"
+            />
+
+        <ImageButton
+            android:id="@+id/google_button"
+
+            android:layout_width="160dp"
+            android:layout_height="35dp"
+            android:background="@drawable/googlelogo"
+            android:layout_marginTop="440dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <ImageButton
+            android:id="@+id/kakao_button"
+
+            android:layout_width="160dp"
+            android:layout_height="35dp"
+            android:background="@drawable/kakaologo"
+            android:layout_marginStart="190dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="440dp"
+
+
+            />
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

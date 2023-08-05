@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "960791680824",
+    "firebase_url": "https://hibuyphotocard-default-rtdb.firebaseio.com",
+    "project_id": "hibuyphotocard",
+    "storage_bucket": "hibuyphotocard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960791680824:android:1520cd48a32ef6735fd3cd",
+        "android_client_info": {
+          "package_name": "hi.buyphotocard.hbpApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960791680824-22936pjb36c8qicj1e4864pdppudinm7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hi.buyphotocard.hbpApp",
+            "certificate_hash": "047ac729ab21348db49a6c329c00b6fc29c675a4"
+          }
+        },
+        {
+          "client_id": "960791680824-ss37snsb6bq9r580hse5u12o2g1svtjd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hi.buyphotocard.hbpApp",
+            "certificate_hash": "e939b7c20b950cf73103a621e27c75929e119755"
+          }
+        },
+        {
+          "client_id": "960791680824-8tlnq2ia8h0n2oimi0qjv8gqb7891eh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX5VEZK4OG4ME4BM_PDYFwDg54isTOfRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960791680824-4ojee4g0drcpap4fcvmdk68p53os9ik1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

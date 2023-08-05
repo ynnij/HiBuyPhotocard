@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/label_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_text_box"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:layout_weight="0.9"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    >
+                    <LinearLayout
+                        android:id="@+id/label_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        />
+                </HorizontalScrollView>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/search_button"
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.1"
+                    android:background="@drawable/search_button"
+                    />
+
+            </LinearLayout>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+            <ScrollView
+                android:id="@+id/scrollView_searchItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingLeft="6dp"
+                android:background="@drawable/white_box"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </ScrollView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:weightSum="4"
+            android:elevation="20dp"
+            >
+            <LinearLayout
+                android:id="@+id/contractBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="5"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:src="@drawable/contract"
+                    android:layout_marginTop="3dp"
+                    android:padding="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="글쓰기"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/homeBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:src="@drawable/house"
+                    android:padding="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="홈"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/chatBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:src="@drawable/chat"
+                    android:padding="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="채팅"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/mypageBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:padding="15dp"
+                    android:src="@drawable/mypage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:text="마이페이지"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="7dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
