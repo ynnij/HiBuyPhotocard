@@ -5,19 +5,18 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdk 30
 
     defaultConfig {
         applicationId "hi.buyphotocard.hbpApp"
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 31
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        aaptOptions{
+        aaptOptions {
             noCompress "tflite"
         }
     }
@@ -39,6 +38,7 @@ android {
             }
         }
     }
+    namespace 'hi.buyphotocard.hbpApp'
 }
 
 dependencies {
